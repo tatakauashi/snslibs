@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" >
+
+  <appender name="appLog" class="org.apache.log4j.RollingFileAppender">
+     <param name="threshold" value="info"/>
+     <param name="File" value="./log/tw-app.log" />
+     <param name="Append" value="true" />
+     <param name="Encoding" value="UTF-8" />
+     <param name="MaxFileSize" value="1024KB" />
+     <!--param name="MaxBackupIndex" value="10" /-->
+     <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="[%d{yyyy/MM/dd HH:mm:ss.SSS}] [%-5p] [%t] - %m%n" />
+     </layout>
+  </appender>
+  <appender name="errorLog" class="org.apache.log4j.RollingFileAppender">
+     <param name="threshold" value="error"/>
+     <param name="File" value="./log/tw-error.log" />
+     <param name="Append" value="true" />
+     <param name="Encoding" value="UTF-8" />
+     <param name="MaxFileSize" value="1024KB" />
+     <!--param name="MaxBackupIndex" value="10" /-->
+     <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="[%d{yyyy/MM/dd HH:mm:ss.SSS}] [%-5p] [%t] - %m%n" />
+     </layout>
+  </appender>
+
+  <root>
+  </root>
+  <logger name="net.meiteampower">
+    <appender-ref ref="appLog" />
+    <appender-ref ref="errorLog" />
+  </logger>
+</log4j:configuration>
