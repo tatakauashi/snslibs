@@ -1,0 +1,139 @@
+[2017/06/18 20:12:28.708] [INFO ] [main] - [user/show]取得処理 開始
+[2017/06/18 20:13:31.331] [INFO ] [main] - [user/show]取得処理 終了
+[2017/06/18 20:18:56.843] [INFO ] [main] - [user/show]取得処理 開始
+[2017/06/18 20:18:57.165] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=harumizu
+[2017/06/18 20:18:57.497] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784737",oauth_nonce="2461880372",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="2q4lFuyOzvreZJpvLky1HYlCBdY%3D"]
+[2017/06/18 20:18:57.900] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=harumizu
+[2017/06/18 20:18:57.901] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=harumizu
+[2017/06/18 20:18:58.454] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=harumizu
+[2017/06/18 20:19:00.792] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=naaboudoufu
+[2017/06/18 20:19:00.798] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784740",oauth_nonce="-388732959",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="W1nRWvKeRmvB2MmO%2F1FeZ3KYEEo%3D"]
+[2017/06/18 20:19:00.968] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=naaboudoufu
+[2017/06/18 20:19:00.968] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=naaboudoufu
+[2017/06/18 20:19:00.987] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=naaboudoufu
+[2017/06/18 20:19:03.489] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=Kyueens_Mizuki
+[2017/06/18 20:19:03.496] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784743",oauth_nonce="3531163343",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="QkYd0Dhs1MVibBhr2PNWtSYXrG4%3D"]
+[2017/06/18 20:19:03.659] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=Kyueens_Mizuki
+[2017/06/18 20:19:03.659] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=Kyueens_Mizuki
+[2017/06/18 20:19:03.670] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=Kyueens_Mizuki
+[2017/06/18 20:19:04.992] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=yuntammmm
+[2017/06/18 20:19:05.028] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784744",oauth_nonce="2792188442",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="pbIT%2BTGXGjVpBsKnfl1wY1vfh0w%3D"]
+[2017/06/18 20:19:05.179] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=yuntammmm
+[2017/06/18 20:19:05.179] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=yuntammmm
+[2017/06/18 20:19:05.192] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=yuntammmm
+[2017/06/18 20:19:06.608] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=ayapi25
+[2017/06/18 20:19:06.617] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784746",oauth_nonce="2647479621",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="JYJqB39lPdVBYK9l1bVkpmR2HGE%3D"]
+[2017/06/18 20:19:06.769] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=ayapi25
+[2017/06/18 20:19:06.769] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=ayapi25
+[2017/06/18 20:19:06.779] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=ayapi25
+[2017/06/18 20:19:08.303] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=CHIE_Pimms
+[2017/06/18 20:19:08.311] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784748",oauth_nonce="-437565267",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="MJX1qscEwgLPcF7vlJbdsX0KOlQ%3D"]
+[2017/06/18 20:19:08.468] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=CHIE_Pimms
+[2017/06/18 20:19:08.468] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=CHIE_Pimms
+[2017/06/18 20:19:08.477] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=CHIE_Pimms
+[2017/06/18 20:19:09.594] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=rina_marucon
+[2017/06/18 20:19:09.599] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784749",oauth_nonce="-15190568",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="KjxIWmsc59rFe6xdOYCaEFG3GAw%3D"]
+[2017/06/18 20:19:09.786] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=rina_marucon
+[2017/06/18 20:19:09.787] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=rina_marucon
+[2017/06/18 20:19:09.793] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=rina_marucon
+[2017/06/18 20:19:11.514] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=Hinano_fitone
+[2017/06/18 20:19:11.518] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784751",oauth_nonce="-349368912",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="Oqqp%2FIg1l5R%2BhKJnHyxdba0CVi4%3D"]
+[2017/06/18 20:19:11.689] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=Hinano_fitone
+[2017/06/18 20:19:11.690] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=Hinano_fitone
+[2017/06/18 20:19:11.709] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=Hinano_fitone
+[2017/06/18 20:19:14.172] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=Ishikawa__Mai
+[2017/06/18 20:19:14.176] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784754",oauth_nonce="633141814",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="XWwhAv8C3ac1CHQP9rCv1XSNJ9w%3D"]
+[2017/06/18 20:19:14.409] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=Ishikawa__Mai
+[2017/06/18 20:19:14.409] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=Ishikawa__Mai
+[2017/06/18 20:19:14.422] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=Ishikawa__Mai
+[2017/06/18 20:19:16.140] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=Nana_Owada728
+[2017/06/18 20:19:16.144] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784756",oauth_nonce="895564956",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="%2BmIWCG%2FqRN2vUjWFlNTawfLJiMY%3D"]
+[2017/06/18 20:19:16.294] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=Nana_Owada728
+[2017/06/18 20:19:16.295] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=Nana_Owada728
+[2017/06/18 20:19:16.304] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=Nana_Owada728
+[2017/06/18 20:19:19.107] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=ymmt_mitsuki
+[2017/06/18 20:19:19.112] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784759",oauth_nonce="1142177543",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="lyyAarFfbW36VbX51oyVjcUbet4%3D"]
+[2017/06/18 20:19:19.262] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=ymmt_mitsuki
+[2017/06/18 20:19:19.262] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=ymmt_mitsuki
+[2017/06/18 20:19:19.627] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=ymmt_mitsuki
+[2017/06/18 20:19:21.144] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=komatsuhina
+[2017/06/18 20:19:21.149] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784761",oauth_nonce="843727743",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="ys3EPtlkl%2F0v9NzuPyVhTv%2FWbEc%3D"]
+[2017/06/18 20:19:21.358] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=komatsuhina
+[2017/06/18 20:19:21.359] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=komatsuhina
+[2017/06/18 20:19:21.373] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=komatsuhina
+[2017/06/18 20:19:22.918] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=T_1113_Hono
+[2017/06/18 20:19:22.922] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784762",oauth_nonce="902440801",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="kbLQ391P1Qyp2BfYx4wRotemTdM%3D"]
+[2017/06/18 20:19:23.080] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=T_1113_Hono
+[2017/06/18 20:19:23.080] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=T_1113_Hono
+[2017/06/18 20:19:23.092] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=T_1113_Hono
+[2017/06/18 20:19:24.324] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=isobaaaaaa
+[2017/06/18 20:19:24.328] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784764",oauth_nonce="-239509516",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="8h0UCRm%2B%2BHeESp7iDPwblOppHF0%3D"]
+[2017/06/18 20:19:24.491] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=isobaaaaaa
+[2017/06/18 20:19:24.492] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=isobaaaaaa
+[2017/06/18 20:19:24.512] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=isobaaaaaa
+[2017/06/18 20:19:26.678] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=_hoshi1127
+[2017/06/18 20:19:26.683] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784766",oauth_nonce="1317576844",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="t8tA6g8iYyrOkcG9DOJVD%2FKMPLg%3D"]
+[2017/06/18 20:19:26.842] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=_hoshi1127
+[2017/06/18 20:19:26.842] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=_hoshi1127
+[2017/06/18 20:19:26.864] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=_hoshi1127
+[2017/06/18 20:19:28.676] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=_miyu_araki_
+[2017/06/18 20:19:28.681] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784768",oauth_nonce="-431758930",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="rZ63zUlvcsL%2FE1%2BNj%2BGBCY3F7H4%3D"]
+[2017/06/18 20:19:28.867] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=_miyu_araki_
+[2017/06/18 20:19:28.867] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=_miyu_araki_
+[2017/06/18 20:19:28.874] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=_miyu_araki_
+[2017/06/18 20:19:31.531] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=PV__marika
+[2017/06/18 20:19:31.538] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784771",oauth_nonce="832501229",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="xCzMavwBdhc7UIo2z8qLJ14ueNM%3D"]
+[2017/06/18 20:19:31.694] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=PV__marika
+[2017/06/18 20:19:31.695] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=PV__marika
+[2017/06/18 20:19:31.704] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=PV__marika
+[2017/06/18 20:19:32.973] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=karen_koizumi
+[2017/06/18 20:19:32.979] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784772",oauth_nonce="133221051",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="nQzXbK%2By4QxhKm0COGZzdthRx%2FM%3D"]
+[2017/06/18 20:19:33.189] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=karen_koizumi
+[2017/06/18 20:19:33.189] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=karen_koizumi
+[2017/06/18 20:19:33.199] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=karen_koizumi
+[2017/06/18 20:19:34.590] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=ayuayukkk69
+[2017/06/18 20:19:34.595] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784774",oauth_nonce="1351661087",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="%2FKlLj3Q3%2BsoZ%2BHVWpOi6JJ0pIGI%3D"]
+[2017/06/18 20:19:34.744] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=ayuayukkk69
+[2017/06/18 20:19:34.748] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=ayuayukkk69
+[2017/06/18 20:19:34.773] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=ayuayukkk69
+[2017/06/18 20:19:36.806] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=umino_hasegawa
+[2017/06/18 20:19:36.811] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784776",oauth_nonce="3050204663",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="xCZYeVPYpGlkvSsBHCMxsNhKPyg%3D"]
+[2017/06/18 20:19:36.964] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=umino_hasegawa
+[2017/06/18 20:19:36.965] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=umino_hasegawa
+[2017/06/18 20:19:36.973] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=umino_hasegawa
+[2017/06/18 20:19:39.691] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=AKI_WISMALU
+[2017/06/18 20:19:39.695] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784779",oauth_nonce="-57629307",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="9vSz22UZGa8fLYmqrTMbIfluFZA%3D"]
+[2017/06/18 20:19:39.843] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=AKI_WISMALU
+[2017/06/18 20:19:39.844] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=AKI_WISMALU
+[2017/06/18 20:19:39.851] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=AKI_WISMALU
+[2017/06/18 20:19:42.448] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=mei__sakai
+[2017/06/18 20:19:42.453] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784782",oauth_nonce="402450007",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="IOyqIbc9jI3UdvcYGhlKPI2vShw%3D"]
+[2017/06/18 20:19:42.601] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=mei__sakai
+[2017/06/18 20:19:42.601] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=mei__sakai
+[2017/06/18 20:19:42.609] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=mei__sakai
+[2017/06/18 20:19:44.287] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=rikattikoni4
+[2017/06/18 20:19:44.291] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784784",oauth_nonce="1127466958",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="NtXo4x4CJNRx8HuduQc0eafO1Ik%3D"]
+[2017/06/18 20:19:44.443] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=rikattikoni4
+[2017/06/18 20:19:44.443] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=rikattikoni4
+[2017/06/18 20:19:44.451] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=rikattikoni4
+[2017/06/18 20:19:46.800] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=yano_toko
+[2017/06/18 20:19:46.806] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784786",oauth_nonce="75343323",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="3sP%2FNd6OIX%2F0N%2FbtshKM%2F0OQs4w%3D"]
+[2017/06/18 20:19:46.949] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=yano_toko
+[2017/06/18 20:19:46.949] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=yano_toko
+[2017/06/18 20:19:46.955] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=yano_toko
+[2017/06/18 20:19:49.392] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=mitsuki_saori
+[2017/06/18 20:19:49.396] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784789",oauth_nonce="3639327052",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="PaLaS0G9Qk0g%2FMYbxefRq%2FYWzAs%3D"]
+[2017/06/18 20:19:49.550] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=mitsuki_saori
+[2017/06/18 20:19:49.550] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=mitsuki_saori
+[2017/06/18 20:19:49.560] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=mitsuki_saori
+[2017/06/18 20:19:51.543] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=asukyo_kyoka
+[2017/06/18 20:19:51.547] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784791",oauth_nonce="858192244",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="qJIvEB%2BPdPNu6PNKVs%2FRhmV0%2F7I%3D"]
+[2017/06/18 20:19:51.695] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=asukyo_kyoka
+[2017/06/18 20:19:51.696] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=asukyo_kyoka
+[2017/06/18 20:19:51.704] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=asukyo_kyoka
+[2017/06/18 20:19:54.664] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=ic_sora721
+[2017/06/18 20:19:54.666] [DEBUG] [main] - authorizationHeader=[OAuth oauth_consumer_key="1tTPxO6JAGbDyi4zZDI6ZlwQ3",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1497784794",oauth_nonce="-516001267",oauth_version="1.0",oauth_token="796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",oauth_signature="m%2FHGZi9tf%2BUVNmJIUhrHxKi30WM%3D"]
+[2017/06/18 20:19:54.811] [DEBUG] [main] - [user/show] TwitterAPI 開始 screen_name=ic_sora721
+[2017/06/18 20:19:54.811] [DEBUG] [main] - [user/show] 保存処理 開始 screen_name=ic_sora721
+[2017/06/18 20:19:54.821] [DEBUG] [main] - [user/show] 保存処理 成功 screen_name=ic_sora721
+[2017/06/18 20:19:56.050] [INFO ] [main] - [user/show]取得処理 終了
