@@ -37,7 +37,7 @@ public class Thumbnail {
         g.drawImage(dstImage, 0, 0, null);
         g.dispose();
 
-        int width2 = 400;
+        int width2 = 360;
         int height2 = (int)(height * ((double)width2 / width));
         int x = (int)((width - width2) / 2.);
         int y = (int)((height - height2) / 2.);

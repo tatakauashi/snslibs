@@ -46,7 +46,7 @@ public class InstagramApiTest {
 	public void testGetJson() {
 
 		try {
-			String json = new InstagramApi().getProfileJson("hinakomatsuhina");
+			String json = new InstagramApi().getProfileJson("sakai__mei");
 			System.out.println("json=" + json);
 			assertFalse("".equals(json));
 

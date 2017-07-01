@@ -38,10 +38,10 @@ public class ThumbnailTest {
 	public void testScaleImage() {
 
 		try {
-//			File in = new File("17265487_809689225851815_4672782864515858432_n.jpg");
-//			File out = new File("17265487_809689225851815_4672782864515858432_n_p50.jpg");
-			File in = new File("IMG_4540.JPG");
-			File out = new File("IMG_4540_thumb.JPG");
+			String fileName = "19534792_110693139557611_3099140528394993664_n.jpg";
+			String thumbnailName = fileName + ".thumb.jpg";
+			File in = new File(fileName);
+			File out = new File(thumbnailName);
 			Thumbnail.scaleImage(in, out, .7);
 
 			assertTrue(out.exists());
