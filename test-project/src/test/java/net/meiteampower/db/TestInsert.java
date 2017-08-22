@@ -46,11 +46,11 @@ public class TestInsert {
 
 			int index = 0;
 			ps.setInt(++index, 1);
-			ps.setString(++index, "4594089260");
+			ps.setString(++index, "14896486");
 //			ps.setString(++index, "#酒井萌衣 さん #Instagram 更新\u0001\uF603\n%{link_url}%\n※This photo is a part of it! See her post!");
 //			ps.setString(++index, "#酒井萌衣 さん #Instagram 更新" + "\uD83D\uDE03" + "\n%{link_url}%\n※This photo is a part of it! See her post!");
 //			ps.setString(++index, "#酒井萌衣 さん #Instagram 更新♪ \n%{link_url}%\n※This photo is a part of it! See her post!");
-			ps.setString(++index, "#酒井萌衣 さん #Instagram 更新" + CharCodeUtils.toSurrogatePair("U+1F603") + "\n%{link_url}%\n※This photo is a part of it! See her post!");
+			ps.setString(++index, "#MeiSAKAI (a Japanese Actress) posted a new #Instagram " + CharCodeUtils.toSurrogatePair("U+1F596") + "\n%{link_url}%\n※This photo is a part of it! See her post!");
 //			ps.setString(++index, "テストです " + CharCodeUtils.toSurrogatePair("U+1F60D") + "");
 
 

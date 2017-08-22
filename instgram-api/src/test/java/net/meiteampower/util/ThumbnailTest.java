@@ -38,7 +38,9 @@ public class ThumbnailTest {
 	public void testScaleImage() {
 
 		try {
-			String fileName = "19534792_110693139557611_3099140528394993664_n.jpg";
+			String desktop = "C:\\Users\\kie\\Desktop\\";
+//			String fileName = desktop + "20170711_large.jpg";//20838389_730783773789574_6843403389670260736_n.jpg
+			String fileName = desktop + "20838389_730783773789574_6843403389670260736_n.jpg";
 			String thumbnailName = fileName + ".thumb.jpg";
 			File in = new File(fileName);
 			File out = new File(thumbnailName);
