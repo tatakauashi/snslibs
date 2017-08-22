@@ -1,3 +1,0 @@
-[2017/07/04 23:36:17.714] [ERROR] [main] - req=OAuthToken{token='BjCnxwAAAAAA0y-7AAABXQ4HqCU', tokenSecret='fBvddcDgSIsvZMQt7yf9spbHfhgv2vDZ', secretKeySpec=null}
-[2017/07/04 23:36:22.013] [ERROR] [main] - authorization_url=https://api.twitter.com/oauth/authorize?oauth_token=BjCnxwAAAAAA0y-7AAABXQ4HqCU
-[2017/07/04 23:40:56.496] [ERROR] [main] - AccessToken=AccessToken{screenName='tatakauashi', userId=14896486}
