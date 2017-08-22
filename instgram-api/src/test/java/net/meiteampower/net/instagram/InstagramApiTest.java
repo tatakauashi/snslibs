@@ -63,7 +63,7 @@ public class InstagramApiTest {
 	public void testGson() {
 
 		try {
-			String json = read("json.txt");
+			String json = read("json2.txt");
 			String reshaped = new ReshapeJson().executeDetail(json, "\t");
 			System.out.println(reshaped);
 
@@ -77,7 +77,7 @@ public class InstagramApiTest {
 				.get("nodes").getAsJsonArray()
 				.get(0).getAsJsonObject()
 				.get("id").getAsString();
-			assertEquals("1545663649959197160", latestId);
+			assertEquals("1583393128785491133", latestId);
 
 		} catch (Exception e) {
 			e.printStackTrace();
