@@ -17,6 +17,8 @@ import org.junit.Test;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import net.meiteampower.net.instagram.entity.PostPage;
+import net.meiteampower.net.instagram.entity.ProfilePage;
 import net.meiteampower.util.ReshapeJson;
 
 /**
@@ -46,7 +48,7 @@ public class InstagramApiTest {
 	public void testGetJson() {
 
 		try {
-			String json = new InstagramApi().getProfileJson("sakai__mei");
+			String json = new InstagramApi().getProfilePageJson("sakai__mei");
 			System.out.println("json=" + json);
 			assertFalse("".equals(json));
 
@@ -58,12 +60,55 @@ public class InstagramApiTest {
 			fail();
 		}
 	}
+	@Test
+	public void testGetProfilePage() {
+
+		try {
+			ProfilePage actual = new InstagramApi().getProfilePage("sakai__mei");
+			System.out.println("id: " + actual.getId());
+			System.out.println("username: " + actual.getUsername());
+			System.out.println("fullName: " + actual.getFullName());
+			System.out.println("biography: " + actual.getBiography());
+			System.out.println("followedBy: " + actual.getFollowedBy());
+			System.out.println("follows: " + actual.getFollows());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	public void testGetPostPage() {
+
+		try {
+			// 画像３つ。
+			PostPage actual = new InstagramApi().getPostPage("BYFv8mwFq8H");
+			System.out.println("text: " + actual.getText());
+			for (String url : actual.getDisplayUrls()) {
+				System.out.println("display_url: " + url);
+			}
+			assertEquals(3, actual.getDisplayUrls().size());
+
+			// 画像１つ。
+			actual = new InstagramApi().getPostPage("BYGFXrlDPv0");
+			System.out.println("text: " + actual.getText());
+			for (String url : actual.getDisplayUrls()) {
+				System.out.println("display_url: " + url);
+			}
+			assertEquals(3, actual.getDisplayUrls().size());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
 
 	@Test
 	public void testGson() {
 
 		try {
-			String json = read("json2.txt");
+			String json = read("json.txt");
 			String reshaped = new ReshapeJson().executeDetail(json, "\t");
 			System.out.println(reshaped);
 
