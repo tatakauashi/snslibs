@@ -1,11 +1,14 @@
 package net.meiteampower.twitterapi;
 
+import static org.junit.Assert.*;
+
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import twitter4j.auth.AccessToken;
+import twitter4j.auth.OAuth2Token;
 import twitter4j.auth.RequestToken;
 
 public class TokenGeneratorTest {
@@ -35,6 +38,23 @@ public class TokenGeneratorTest {
 		AccessToken token = generator.getAccessToken(verifier);
 		logger.error("AccessToken=" + token.toString());
 
+	}
+
+	/**
+	 * ベアラートークンを取得するテスト。
+	 */
+	@Test
+	public void testGetOAuth2Token() {
+
+		try {
+			TokenGenerator generator = new TokenGenerator();
+			OAuth2Token actual = generator.getOAuth2Token();
+			System.out.println("OAuth2Token=" + actual.getAccessToken());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 
 }

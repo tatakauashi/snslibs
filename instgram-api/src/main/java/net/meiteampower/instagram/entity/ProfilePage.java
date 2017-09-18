@@ -1,6 +1,7 @@
-package net.meiteampower.net.instagram.entity;
+package net.meiteampower.instagram.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ProfilePage implements Serializable {
 
@@ -10,6 +11,7 @@ public class ProfilePage implements Serializable {
 	private String biography;
 	private int followedBy;
 	private int follows;
+	private List<Update> updateList;
 
 	public String getId() {
 		return id;
@@ -46,5 +48,11 @@ public class ProfilePage implements Serializable {
 	}
 	public void setFollows(int follows) {
 		this.follows = follows;
+	}
+	public final List<Update> getUpdateList() {
+		return updateList;
+	}
+	public final void setUpdateList(List<Update> updateList) {
+		this.updateList = updateList;
 	}
 }

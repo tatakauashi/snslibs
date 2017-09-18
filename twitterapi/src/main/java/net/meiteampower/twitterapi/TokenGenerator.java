@@ -6,7 +6,10 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
+import twitter4j.auth.OAuth2Authorization;
+import twitter4j.auth.OAuth2Token;
 import twitter4j.auth.RequestToken;
+import twitter4j.conf.Configuration;
 
 /**
  * リクエストトークン、アクセストークンの取得を行う。
@@ -23,6 +26,12 @@ public class TokenGenerator {
 	public TokenGenerator() {
 		factory = new TwitterFactory();
 		twitter = factory.getInstance();
+	}
+
+	public OAuth2Token getOAuth2Token() throws TwitterException {
+		Configuration conf = twitter.getConfiguration();
+		OAuth2Authorization auth = new OAuth2Authorization(conf);
+		return auth.getOAuth2Token();
 	}
 
 	public RequestToken getRequestToken() {

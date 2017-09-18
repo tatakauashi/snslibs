@@ -17,6 +17,8 @@ import org.apache.log4j.Logger;
 import twitter4j.HttpParameter;
 import twitter4j.HttpRequest;
 import twitter4j.RequestMethod;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
 import twitter4j.auth.OAuthAuthorization;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -36,12 +38,16 @@ public class TwitterApiAccessor {
 
     private static final Logger logger = Logger.getLogger(TwitterApiAccessor.class);
 
+	private TwitterFactory factory;
+	private Twitter twitter;
 //    private static Configuration configuration;
 
     /**
      * 非公開コンストラクタ。 シングルトンのため。
      */
     private TwitterApiAccessor() {
+		factory = new TwitterFactory();
+		twitter = factory.getInstance();
     }
 
     /**
@@ -55,6 +61,14 @@ public class TwitterApiAccessor {
         }
         return singleton;
     }
+
+	public Configuration getDefaultConfiguration() {
+		return twitter.getConfiguration();
+	}
+
+	public Twitter getTwitter() {
+		return twitter;
+	}
 
 //    /**
 //     * Ads APIを使用し、データを取得する。アクセストークンはアプリケーションのものを使用する。
@@ -169,8 +183,15 @@ public class TwitterApiAccessor {
         }
 
         // Authorizationヘッダを生成する
-        String authorizationHeader = generateAuthorizationHeader(method, urlStr, apiParams.getAccountId(),
-                isPost ? apiParams.getQueryParams() : null, oauthAccessToken, oauthAccessTokenSecret);
+        String authorizationHeader;
+//        String authorizationHeader = generateAuthorizationHeader(method, urlStr, apiParams.getAccountId(),
+//                isPost ? apiParams.getQueryParams() : null, oauthAccessToken, oauthAccessTokenSecret);
+        if (apiParams.hasRequestHeader("Authorization")) {
+        	authorizationHeader = apiParams.getRequestHeaders().get("Authorization");
+        } else {
+        	authorizationHeader = generateAuthorizationHeader(method, urlStr, apiParams.getAccountId(),
+                    isPost ? apiParams.getQueryParams() : null, oauthAccessToken, oauthAccessTokenSecret);
+        }
 
         logger.debug(String.format("authorizationHeader=[%s]", authorizationHeader));
 
@@ -179,6 +200,9 @@ public class TwitterApiAccessor {
 
         if (apiParams.hasRequestHeaders()) {
             for (Map.Entry<String, String> entry : apiParams.getRequestHeaders().entrySet()) {
+            	if ("Authorization".equals(entry.getKey())) {
+            		continue;
+            	}
                 connection.setRequestProperty(entry.getKey(), entry.getValue());
             }
         }
@@ -461,10 +485,10 @@ public class TwitterApiAccessor {
                 method = RequestMethod.POST;
             } else if (methodString.equals("get")) {
                 method = RequestMethod.GET;
-            } else if (methodString.equals("put")) {
-                method = RequestMethod.PUT;
-            } else if (methodString.equals("delete")) {
-                method = RequestMethod.DELETE;
+//            } else if (methodString.equals("put")) {
+//                method = RequestMethod.PUT;
+//            } else if (methodString.equals("delete")) {
+//                method = RequestMethod.DELETE;
             } else {
                 throw new IllegalArgumentException("http method is not valid. httpMethod=" + httpMethod);
             }
@@ -477,17 +501,13 @@ public class TwitterApiAccessor {
     private Configuration getConfiguration(String oauthAccessToken, String oauthAccessTokenSecret) {
     	ConfigurationBuilder cb = new ConfigurationBuilder();
     	cb.setDebugEnabled(true)
-    		.setOAuthConsumerKey("1tTPxO6JAGbDyi4zZDI6ZlwQ3")
-    		.setOAuthConsumerSecret("QYKYIgvhuJpAFKcP56u7wKQgjbyqFO2I9KFtJAOXvDtgwO1ard")
     		.setOAuthAccessToken(oauthAccessToken)
     		.setOAuthAccessTokenSecret(oauthAccessTokenSecret);
     	return cb.build();
     }
 
     private Configuration getConfiguration() {
-    	return getConfiguration(
-    			"796313650621317120-QLM5A6TVUbAS0OB1lO5GxTA5QblRfE4",
-    			"fSX6OQTvCs0bRC3saZdrzxjWyhZCKRafxC61P8OXctZLV");
+    	return getConfiguration(null, null);
     }
 
 }

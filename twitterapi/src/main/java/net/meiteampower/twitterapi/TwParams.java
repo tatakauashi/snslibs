@@ -43,6 +43,9 @@ public class TwParams implements Serializable {
 	public final boolean hasQueryParams() {
 		return !queryParams.isEmpty();
 	}
+	public final boolean hasQueryParams(String key) {
+		return !queryParams.isEmpty() && queryParams.containsKey(key);
+	}
 	public final void addQueryParam(String key, String value) {
 		queryParams.put(key, value);
 	}
@@ -51,6 +54,9 @@ public class TwParams implements Serializable {
 	}
 	public final boolean hasRequestHeaders() {
 		return !requestHeaders.isEmpty();
+	}
+	public final boolean hasRequestHeader(String key) {
+		return !requestHeaders.isEmpty() && requestHeaders.containsKey(key);
 	}
 	public final void addRequestHeader(String key, String value) {
 		requestHeaders.put(key, value);

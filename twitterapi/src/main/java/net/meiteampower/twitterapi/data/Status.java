@@ -31,6 +31,7 @@ public class Status implements Serializable {
     private String text;
 //    private String mediaUrlHttps;
     private List<String> mediaUrlHttpsList;
+    private User user;
 
     /**
      * @return createdAt
@@ -139,7 +140,11 @@ public class Status implements Serializable {
         id = get(jsonObject, "id");
 
         // text
-        text = get(jsonObject, "text");
+        if (jsonObject.has("full_text")) {
+        	text = get(jsonObject, "full_text");
+        } else {
+        	text = get(jsonObject, "text");
+        }
 
 //        // mediaUrlHttps
 //        text = get(jsonObject, "entities.media");

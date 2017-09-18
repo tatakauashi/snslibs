@@ -17,8 +17,9 @@ import org.junit.Test;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import net.meiteampower.net.instagram.entity.PostPage;
-import net.meiteampower.net.instagram.entity.ProfilePage;
+import net.meiteampower.instagram.InstagramApi;
+import net.meiteampower.instagram.entity.PostPage;
+import net.meiteampower.instagram.entity.ProfilePage;
 import net.meiteampower.util.ReshapeJson;
 
 /**
@@ -42,7 +43,7 @@ public class InstagramApiTest {
 	}
 
 	/**
-	 * {@link net.meiteampower.net.instagram.InstagramApi#getProfileJson(java.lang.String)} のためのテスト・メソッド。
+	 * {@link net.meiteampower.instagram.InstagramApi#getProfileJson(java.lang.String)} のためのテスト・メソッド。
 	 */
 	@Test
 	public void testGetJson() {
@@ -91,7 +92,7 @@ public class InstagramApiTest {
 			assertEquals(3, actual.getDisplayUrls().size());
 
 			// 画像１つ。
-			actual = new InstagramApi().getPostPage("BYGFXrlDPv0");
+			actual = new InstagramApi().getPostPage("BY-uOwADtDt");
 			System.out.println("text: " + actual.getText());
 			for (String url : actual.getDisplayUrls()) {
 				System.out.println("display_url: " + url);

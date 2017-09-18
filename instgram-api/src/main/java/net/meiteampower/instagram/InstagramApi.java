@@ -1,4 +1,4 @@
-package net.meiteampower.net.instagram;
+package net.meiteampower.instagram;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -13,8 +13,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.meiteampower.net.instagram.entity.PostPage;
-import net.meiteampower.net.instagram.entity.ProfilePage;
+import net.meiteampower.instagram.entity.PostPage;
+import net.meiteampower.instagram.entity.ProfilePage;
+import net.meiteampower.instagram.entity.Update;
 
 /**
  * @author kie
@@ -62,6 +63,28 @@ public class InstagramApi {
 				.get("count").getAsInt());
 		page.setFollows(user.get("follows").getAsJsonObject()
 				.get("count").getAsInt());
+
+		// 投稿一覧を取得する
+		List<Update> updateList = new ArrayList<Update>();
+		page.setUpdateList(updateList);
+		try {
+			JsonObject media = user.getAsJsonObject("media");
+			if (media.has("nodes") && media.get("nodes").isJsonArray()) {
+				for (JsonElement node : media.getAsJsonArray("nodes")) {
+					JsonObject nodeObject = node.getAsJsonObject();
+					Update update = new Update();
+					update.setShortcode(nodeObject.get("code").getAsString());
+					update.setTime(nodeObject.get("date").getAsLong());
+					update.setVideo(nodeObject.get("is_video").getAsBoolean());
+					update.setDisplaySrc(nodeObject.get("display_src").getAsString());
+					update.setCaption(nodeObject.get("caption").getAsString());
+					updateList.add(update);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return page;
 	}
 

@@ -1,4 +1,4 @@
-package net.meiteampower.net.instagram.entity;
+package net.meiteampower.instagram.entity;
 
 import java.io.Serializable;
 import java.util.List;
