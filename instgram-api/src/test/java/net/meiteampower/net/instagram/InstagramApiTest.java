@@ -83,16 +83,16 @@ public class InstagramApiTest {
 	public void testGetPostPage() {
 
 		try {
-			// 画像３つ。
-			PostPage actual = new InstagramApi().getPostPage("BYFv8mwFq8H");
-			System.out.println("text: " + actual.getText());
-			for (String url : actual.getDisplayUrls()) {
-				System.out.println("display_url: " + url);
-			}
-			assertEquals(3, actual.getDisplayUrls().size());
+//			// 画像３つ。
+//			PostPage actual = new InstagramApi().getPostPage("BYFv8mwFq8H");
+//			System.out.println("text: " + actual.getText());
+//			for (String url : actual.getDisplayUrls()) {
+//				System.out.println("display_url: " + url);
+//			}
+//			assertEquals(3, actual.getDisplayUrls().size());
 
 			// 画像１つ。
-			actual = new InstagramApi().getPostPage("BY-uOwADtDt");
+			PostPage actual = new InstagramApi().getPostPage("BZgDev7DcIA");
 			System.out.println("text: " + actual.getText());
 			for (String url : actual.getDisplayUrls()) {
 				System.out.println("display_url: " + url);

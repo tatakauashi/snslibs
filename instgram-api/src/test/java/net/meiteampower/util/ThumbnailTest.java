@@ -40,7 +40,7 @@ public class ThumbnailTest {
 		try {
 			String desktop = "C:\\Users\\kie\\Desktop\\";
 //			String fileName = desktop + "20170711_large.jpg";//20838389_730783773789574_6843403389670260736_n.jpg
-			String fileName = desktop + "20838389_730783773789574_6843403389670260736_n.jpg";
+			String fileName = desktop + "21910919_750140235195564_3632004240202792960_n.jpg";
 			String thumbnailName = fileName + ".thumb.jpg";
 			File in = new File(fileName);
 			File out = new File(thumbnailName);
