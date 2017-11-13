@@ -12,6 +12,9 @@ public class ProfilePage implements Serializable {
 	private int followedBy;
 	private int follows;
 	private List<Update> updateList;
+	private int updateCount;
+	private boolean hasNextPage;
+	private String endCursor;
 
 	public String getId() {
 		return id;
@@ -54,5 +57,23 @@ public class ProfilePage implements Serializable {
 	}
 	public final void setUpdateList(List<Update> updateList) {
 		this.updateList = updateList;
+	}
+	public final int getUpdateCount() {
+		return updateCount;
+	}
+	public final void setUpdateCount(int updateCount) {
+		this.updateCount = updateCount;
+	}
+	public final boolean isHasNextPage() {
+		return hasNextPage;
+	}
+	public final void setHasNextPage(boolean hasNextPage) {
+		this.hasNextPage = hasNextPage;
+	}
+	public final String getEndCursor() {
+		return endCursor;
+	}
+	public final void setEndCursor(String endCursor) {
+		this.endCursor = endCursor;
 	}
 }

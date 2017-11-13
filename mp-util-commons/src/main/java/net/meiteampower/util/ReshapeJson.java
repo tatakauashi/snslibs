@@ -21,28 +21,37 @@ public class ReshapeJson {
     /** デフォルトの改行文字列 */
     private static final String DEFAULT_RETURN = "\r\n";
 
-    public void executeFromFile(String filePath) {
-        executeFromFile(filePath, DEFAULT_INDENT_STRING);
+    private final String indentString;
+
+    /**
+     * コンストラクタ。
+     * インデント文字列にタブを設定
+     */
+    public ReshapeJson() {
+    	indentString = DEFAULT_INDENT_STRING;
     }
 
-    public void executeFromFile(String filePath, String indent) {
+    /**
+     * コンストラクタ。
+     * @param indentString インデント文字列
+     */
+    public ReshapeJson(String indentString) {
+    	this.indentString = indentString;
+    }
 
-        String reshaped = reshapeFromFile(filePath, indent);
+    public void executeFromFile(String filePath) {
 
         // 整形した文字列をファイルに出力する
         String outFilePath = filePath + "." + new Date().getTime() + ".txt";
 
-        saveReshapedJson(reshaped, outFilePath);
+        executeFromFile(filePath, outFilePath);
     }
 
-    /**
-     * JSON文字列を整形する。インデントはデフォルトを使用する。
-     *
-     * @param filePath
-     *            整形するJSON文字列が格納されたファイルのフルパス
-     */
-    public String reshapeFromFile(String filePath) {
-        return reshapeFromFile(filePath, DEFAULT_INDENT_STRING);
+    public void executeFromFile(String filePath, String outFilePath) {
+
+        String reshaped = reshapeFromFile(filePath);
+
+        saveReshapedJson(reshaped, outFilePath);
     }
 
     /**
@@ -53,7 +62,7 @@ public class ReshapeJson {
      * @param indent
      *            インデント文字列
      */
-    public String reshapeFromFile(String filePath, String indent) {
+    public String reshapeFromFile(String filePath) {
 
         String reshaped = null;
         BufferedReader reader = null;
@@ -68,7 +77,7 @@ public class ReshapeJson {
             }
 
             // JSON文字列を整形する
-            reshaped = executeDetail(sb.toString(), indent);
+            reshaped = executeDetail(sb.toString());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,21 +97,11 @@ public class ReshapeJson {
     private void saveReshapedJson(String reshaped, String filePath) {
 
         if (reshaped != null) {
-
-            BufferedWriter writer = null;
-            try {
-                writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8"));
+            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+            		new FileOutputStream(filePath), "UTF-8"))) {
                 writer.write(reshaped);
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                try {
-                    if (writer != null) {
-                        writer.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }
@@ -115,7 +114,7 @@ public class ReshapeJson {
      * @param indent
      *            インデント文字列
      */
-    public String executeDetail(String json, String indent) {
+    public String executeDetail(String json) {
 
         StringBuilder sb = new StringBuilder();
         int indentLevel = 0;
@@ -125,18 +124,18 @@ public class ReshapeJson {
             case '[':
                 sb.append(c);
                 sb.append(DEFAULT_RETURN);
-                writeIndent(indent, ++indentLevel, sb);
+                writeIndent(++indentLevel, sb);
                 break;
             case '}':
             case ']':
                 sb.append(DEFAULT_RETURN);
-                writeIndent(indent, --indentLevel, sb);
+                writeIndent(--indentLevel, sb);
                 sb.append(c);
                 break;
             case ',':
                 sb.append(c);
                 sb.append(DEFAULT_RETURN);
-                writeIndent(indent, indentLevel, sb);
+                writeIndent(indentLevel, sb);
                 break;
             default:
                 sb.append(c);
@@ -147,8 +146,12 @@ public class ReshapeJson {
         return sb.toString();
     }
 
-    private void writeIndent(String indent, int indentLevel, StringBuilder sb) {
-        for (int i = 0; i < indentLevel; i++, sb.append(indent))
-            ;
+    private void writeIndent(int indentLevel, StringBuilder sb) {
+        for (int i = 0; i < indentLevel; i++)
+        	sb.append(indentString);
+    }
+
+    public static final void main(String[] args) {
+    	new ReshapeJson().executeFromFile(args[0]);
     }
 }
