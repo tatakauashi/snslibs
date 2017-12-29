@@ -100,7 +100,7 @@ public class TwitterApiAccessorTest {
 		TwData twData = new TwData();
 
 
-		twParams.addQueryParam("id", "874221001717891072");
+		twParams.addQueryParam("id", "944370349386342400");	//"907219849876615168");//"930404247174225920");
 		twParams.addQueryParam("trim_user", "false");
 		twParams.addQueryParam("include_my_retweet", "true");
 		twParams.addQueryParam("include_entities", "true");
@@ -122,7 +122,7 @@ public class TwitterApiAccessorTest {
 				writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8"));
 				writer.write(str);
 
-				String reshapedJson = new ReshapeJson().executeDetail(twData.getContent(), "\t");
+				String reshapedJson = new ReshapeJson().executeDetail(twData.getContent());
 				writerRaw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePathRaw), "UTF-8"));
 				writerRaw.write(reshapedJson);
 
@@ -169,7 +169,7 @@ public class TwitterApiAccessorTest {
 				writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8"));
 				writer.write(str);
 
-				String reshapedJson = new ReshapeJson().executeDetail(twData.getContent(), "\t");
+				String reshapedJson = new ReshapeJson().executeDetail(twData.getContent());
 				writerRaw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePathRaw), "UTF-8"));
 				writerRaw.write(reshapedJson);
 
@@ -211,7 +211,7 @@ public class TwitterApiAccessorTest {
 //			String content = StringEscapeUtils.unescapeJava(twData.getContent());
 			String content = twData.getContent();
 
-			String reshapedJson = new ReshapeJson().executeDetail(content, "\t");
+			String reshapedJson = new ReshapeJson().executeDetail(content);
 			System.out.println(reshapedJson);
 
 			String filePath = "results/" + "mei__sakai_" + getDateTimeString() + ".txt";

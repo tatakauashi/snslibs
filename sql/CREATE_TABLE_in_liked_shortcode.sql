@@ -6,5 +6,6 @@ CREATE TABLE in_liked_shortcodes (
     tweet_flag tinyint,
     tweet_time datetime,
     insert_time datetime,
+    deleted_flag tinyint DEFAULT 0,
     KEY `account_id` (`account_id`)
 );

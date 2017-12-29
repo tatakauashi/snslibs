@@ -1,6 +1,7 @@
 package net.meiteampower.twitterapi;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -17,7 +18,7 @@ import twitter4j.conf.Configuration;
  */
 public class TokenGenerator {
 
-	private static final Logger logger = Logger.getLogger(TokenGenerator.class);
+	private static final Logger logger = LoggerFactory.getLogger(TokenGenerator.class);
 
 	private RequestToken req = null;
 	private TwitterFactory factory;

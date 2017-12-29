@@ -1,14 +1,11 @@
 DROP TABLE IF EXISTS in_post_info;
 CREATE TABLE in_post_info (
     shortcode varchar(30) NOT NULL,
-    account_id varchar(30) NOT NULL,
     post_text text,
     display_url_json text,
-    taken_at_time datetime,
+    pic_count int,
     insert_time datetime,
-    PRIMARY KEY `shortcode` (`shortcode`),
-    KEY `account_id` (`account_id`),
-    KEY `taken_at_time` (`taken_at_time`)
+    PRIMARY KEY `shortcode` (`shortcode`)
 ) DEFAULT CHARACTER SET utf8mb4;
 
 

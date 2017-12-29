@@ -3,7 +3,8 @@ package net.meiteampower.instagram.entity;
 import java.io.Serializable;
 import java.time.Instant;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.meiteampower.util.InstagramUtils;
 
@@ -13,7 +14,7 @@ import net.meiteampower.util.InstagramUtils;
  */
 public class FreqData implements Serializable {
 
-	private static final Logger logger = Logger.getLogger(FreqData.class);
+	private static final Logger logger = LoggerFactory.getLogger(FreqData.class);
 
 	/** アクセス時のfirstサイズ */
 	private int firstSize;

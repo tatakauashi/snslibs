@@ -9,6 +9,8 @@ public class ProfilePage implements Serializable {
 	private String username;
 	private String fullName;
 	private String biography;
+	private String profilePicUrl;
+	private String profilePicUrlHd;
 	private int followedBy;
 	private int follows;
 	private List<Update> updateList;
@@ -75,5 +77,17 @@ public class ProfilePage implements Serializable {
 	}
 	public final void setEndCursor(String endCursor) {
 		this.endCursor = endCursor;
+	}
+	public final String getProfilePicUrl() {
+		return profilePicUrl;
+	}
+	public final void setProfilePicUrl(String profilePicUrl) {
+		this.profilePicUrl = profilePicUrl;
+	}
+	public final String getProfilePicUrlHd() {
+		return profilePicUrlHd;
+	}
+	public final void setProfilePicUrlHd(String profilePicUrlHd) {
+		this.profilePicUrlHd = profilePicUrlHd;
 	}
 }

@@ -4,7 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.meiteampower.util.InstagramUtils;
 
@@ -13,7 +14,7 @@ import net.meiteampower.util.InstagramUtils;
  */
 public class FreqController {
 
-	private static final Logger logger = Logger.getLogger(FreqController.class);
+	private static final Logger logger = LoggerFactory.getLogger(FreqController.class);
 
 	private static final int MAX_FIRST_SIZE = 5000;
 	private static final int NORMAL_FIRST_SIZE = 2000;

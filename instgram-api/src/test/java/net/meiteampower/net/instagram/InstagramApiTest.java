@@ -9,13 +9,18 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -23,8 +28,11 @@ import com.google.gson.JsonObject;
 import net.meiteampower.instagram.InstagramApi;
 import net.meiteampower.instagram.entity.FreqController;
 import net.meiteampower.instagram.entity.PostPage;
+import net.meiteampower.instagram.entity.ProfilePage;
 import net.meiteampower.instagram.entity.QueryResponse;
+import net.meiteampower.instagram.entity.Update;
 import net.meiteampower.util.InstagramUtils;
+import net.meiteampower.util.NetUtils;
 import net.meiteampower.util.ReshapeJson;
 
 /**
@@ -33,7 +41,7 @@ import net.meiteampower.util.ReshapeJson;
  */
 public class InstagramApiTest {
 
-	private static final Logger logger = Logger.getLogger(InstagramApiTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(InstagramApiTest.class);
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -262,6 +270,62 @@ public class InstagramApiTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
+		}
+	}
+
+	@Test
+	public void testSavePostPics() {
+
+		String shortcode = "BcjxSXdBngH";
+
+		try {
+			InstagramApi api = new InstagramApi();
+
+			PostPage postPage = api.getPostPage(shortcode);
+			downloadPics(postPage);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	public void testSaveUserPics() {
+
+		String username = "ryoha1009";
+
+		try {
+			InstagramApi api = new InstagramApi();
+
+			ProfilePage profilePage = api.getProfilePage(username, Instant.now().minusSeconds(30 * 24 * 60 * 60));
+
+			for (Update u : profilePage.getUpdateList()) {
+				PostPage postPage = api.getPostPage(u.getShortcode());
+
+				downloadPics(postPage);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	private void downloadPics(PostPage postPage) throws Exception {
+
+		int count = 0;
+		String dateTimeString = LocalDateTime.ofInstant(postPage.getTakenAtTimestamp(), ZoneId.of("Asia/Tokyo")).format(
+				DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+		for (String url : postPage.getDisplayUrls()) {
+			int extIndex = url.lastIndexOf('.');
+			String ext = url.substring(extIndex);
+
+			count++;
+			// mp-utilを使用して写真ファイルをダウンロードする。
+			String path = InstagramUtils.getPicDir()
+					+ "/" + postPage.getUsername() + "/" + dateTimeString + "-" + count + ext;
+			NetUtils.download(url, path);
 		}
 	}
 

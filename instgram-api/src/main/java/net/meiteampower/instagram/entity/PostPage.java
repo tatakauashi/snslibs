@@ -12,6 +12,7 @@ public class PostPage implements Serializable {
 
 	private String id;
 	private String username;
+	private String fullName;
 	private String text;
 	private String shortcode;
 	private List<String> displayUrls;
@@ -67,5 +68,11 @@ public class PostPage implements Serializable {
 	}
 	public final void setShortcode(String shortcode) {
 		this.shortcode = shortcode;
+	}
+	public final String getFullName() {
+		return fullName;
+	}
+	public final void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 }

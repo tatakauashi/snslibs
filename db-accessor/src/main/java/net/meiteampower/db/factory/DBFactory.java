@@ -5,11 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DBFactory {
 
-	private static final Logger logger = Logger.getLogger(DBFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(DBFactory.class);
 	private static final String DB_PROP_FILE_NAME = "db.properties";
 
 	private String connectionString;

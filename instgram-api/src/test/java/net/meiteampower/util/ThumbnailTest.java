@@ -17,6 +17,9 @@ import org.junit.Test;
  */
 public class ThumbnailTest {
 
+	private static final String IMAGE_IN_PATH = "src/test/images/in/";
+	private static final String IMAGE_OUT_PATH = "src/test/images/out/";
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -48,6 +51,34 @@ public class ThumbnailTest {
 
 			assertTrue(out.exists());
 
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	public void testLayer() {
+
+		try {
+//			File imagesToDir = new File(IMAGE_OUT_PATH);
+//			for (File f : imagesToDir.listFiles()) {
+//				if (f.isFile()) {
+//					f.delete();
+//				}
+//			}
+
+			String fileName = "25018115_533421133690209_120412436095303680_n.jpg";
+			String fromPath = IMAGE_IN_PATH + fileName;
+//			String layerPath = "src/main/images/instagram_sakai__mei.png";
+			String layerPath = "src/main/images/instagram_saki_tkhs.png";
+			String intermidiatePath = IMAGE_OUT_PATH + fileName + ".inter.png";
+//			String instaLogoPath = IMAGE_IN_PATH + "insta_logo.png";
+			String toPath = IMAGE_OUT_PATH + fileName + ".layered.png";
+
+			Thumbnail.scaleImage(fromPath, intermidiatePath, 1.0, 320, 320, null);
+			Thumbnail.layer(intermidiatePath, layerPath, toPath, 0.70F);
+//			Thumbnail.layer(layerPath, instaLogoPath, toPath, 1.0F);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

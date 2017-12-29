@@ -59,7 +59,7 @@ public class InstagramDao {
 		try (Connection connection = DBFactory.getConnection()) {
 			PreparedStatement ps = connection.prepareStatement(
 					"SELECT * FROM in_liked_shortcodes "
-					+ " WHERE shortcode = ? ");
+					+ " WHERE shortcode = ? AND deleted_flag = 0 ");
 
 			int index = 0;
 			ps.setString(++index, shortcode);
@@ -80,9 +80,13 @@ public class InstagramDao {
 
 		try (Connection connection = DBFactory.getConnection()) {
 
-			PreparedStatement ps = connection.prepareStatement(
-					"SELECT shortcode FROM in_liked_shortcodes WHERE account_id = ? ");
-			ps.setString(1, accountId);
+			String sql = "SELECT shortcode FROM in_liked_shortcodes WHERE deleted_flag = 0 "
+					+ (accountId != null ? " AND account_id = ? " : "");
+			PreparedStatement ps = connection.prepareStatement(sql);
+
+			if (accountId != null) {
+				ps.setString(1, accountId);
+			}
 
 			try (ResultSet resultSet = ps.executeQuery()) {
 
@@ -93,6 +97,25 @@ public class InstagramDao {
 		}
 
 		return shortcodeSet;
+	}
+
+	public static boolean isRegistgerdShortcode(String shortcode) throws Exception {
+
+		try (Connection connection = DBFactory.getConnection()) {
+
+			String sql = "SELECT shortcode FROM in_post_info WHERE shortcode = ? ";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, shortcode);
+
+			try (ResultSet resultSet = ps.executeQuery()) {
+
+				while (resultSet.next()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public static Map<String, InstagramLastLiked> getLastLiked(String accountId) throws Exception {
@@ -190,28 +213,35 @@ public class InstagramDao {
 		return resultList;
 	}
 
-	public static void registerPostInfo(String shortcode, String accountId, String text,
-			List<String> displayUrls, String takenAtTimeString) throws Exception {
+	/**
+	 * 投稿の情報を保存する。
+	 * @param shortcode
+	 * @param text
+	 * @param displayUrls
+	 * @throws Exception
+	 */
+	public static void registerPostInfo(String shortcode, String text,
+			List<String> displayUrls) throws Exception {
 
 		try (Connection connection = DBFactory.getConnection()) {
+			connection.prepareStatement("SET NAMES utf8mb4").executeQuery();
+
 			PreparedStatement ps = connection.prepareStatement(
 					"INSERT INTO in_post_info ("
-					+ " shortcode, account_id, post_text, display_url_json, taken_at_time, insert_time)"
-					+ " VALUES (?, ?, ?, ?, ?, NOW())");
+					+ " shortcode, post_text, display_url_json, pic_count, insert_time)"
+					+ " VALUES (?, ?, ?, ?, NOW())");
 
 			JsonArray array = new JsonArray();
-			array.add(displayUrls.get(0));
-			for (int i = 1; i < displayUrls.size(); i++) {
-				array.add(displayUrls.get(i));
+			for (String fileName : displayUrls) {
+				array.add(fileName);
 			}
 			String displayUrlJson = array.toString();
 
 			int index = 0;
 			ps.setString(++index, shortcode);
-			ps.setString(++index, accountId);
 			ps.setString(++index, text == null ? "" : text);
 			ps.setString(++index, displayUrlJson);
-			ps.setString(++index, takenAtTimeString);
+			ps.setInt(++index, displayUrls.size());
 
 			ps.executeUpdate();
 		}
@@ -227,8 +257,8 @@ public class InstagramDao {
 		try (Connection connection = DBFactory.getConnection()) {
 			PreparedStatement ps = connection.prepareStatement(
 					"INSERT INTO in_liked_shortcodes ("
-					+ " shortcode, account_id, taken_at_time, tweet_flag, tweet_time, insert_time)"
-					+ " VALUES (?, ?, ?, 0, null, NOW())");
+					+ " shortcode, account_id, taken_at_time, tweet_flag, tweet_time, insert_time, deleted_flag)"
+					+ " VALUES (?, ?, ?, 0, null, NOW(), 0)");
 
 			int index = 0;
 			ps.setString(++index, shortcode);
@@ -236,36 +266,63 @@ public class InstagramDao {
 			ps.setString(++index, takenAtTimeString);
 
 			ps.executeUpdate();
-//			connection.commit();
-//
-//			logger.debug("accountId=[" + accountId + "] shortcode=[" + shortcode + "] Likeのコミットに成功しました。");
 		}
 	}
 
-//	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-//	private static String convDateTimeToString(LocalDateTime dateTime) {
-////		return DATE_FORMAT.format(date);
-//		return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.JAPAN));
-//	}
-
-	public static void insertAccount(String accountId, String username) throws Exception {
+	public static void insertAccount(String accountId, String username, String profilePicUrl, String profilePicUrlHd)
+			throws Exception {
 
 		try (Connection connection = DBFactory.getConnection()) {
 			PreparedStatement ps = connection.prepareStatement(
 					"INSERT INTO in_accounts ("
-					+ " account_id, username, exclution_flag, insert_time)"
-					+ " VALUES (?, ?, 0, NOW())");
+					+ " account_id, username, profile_pic_url, profile_pic_url_hd, exclution_flag, insert_time, update_time)"
+					+ " VALUES (?, ?, ?, ?, 0, NOW(), NOW())");
 
 			int index = 0;
 			ps.setString(++index, accountId);
 			ps.setString(++index, username);
+			ps.setString(++index, profilePicUrl);
+			ps.setString(++index, profilePicUrlHd);
 
 			ps.executeUpdate();
-//			connection.commit();
-//
-//			logger.debug("accountId=[" + accountId + "] shortcode=[" + username + "] アカウントのコミットに成功しました。");
 		}
+	}
 
+	public static void updateAccount(String accountId, String username, String profilePicUrl, String profilePicUrlHd)
+			throws Exception {
+
+		try (Connection connection = DBFactory.getConnection()) {
+			PreparedStatement ps = connection.prepareStatement(
+					"UPDATE in_accounts SET username = ?, profile_pic_url = ?, profile_pic_url_hd = ?, update_time = NOW() "
+					+ " WHERE account_id = ? ");
+
+			int index = 0;
+			ps.setString(++index, username);
+			ps.setString(++index, profilePicUrl);
+			ps.setString(++index, profilePicUrlHd);
+			ps.setString(++index, accountId);
+
+			ps.executeUpdate();
+		}
+	}
+
+	public static void insertPostAddInfo(String shortcode, List<String> list) throws Exception {
+
+		try (Connection connection = DBFactory.getConnection()) {
+			PreparedStatement ps = connection.prepareStatement(
+					"INSERT INTO in_post_add_info ("
+					+ " shortcode, revision, price, description, detail_url_json, insert_time)"
+					+ " VALUES (?, 1, 0, '', ?, NOW())");
+
+			JsonArray array = new JsonArray();
+			for (String fileName : list) {
+				array.add(fileName);
+			}
+			int index = 0;
+			ps.setString(++index, shortcode);
+			ps.setString(++index, array.toString());
+
+			ps.executeUpdate();
+		}
 	}
 }

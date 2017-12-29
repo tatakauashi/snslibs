@@ -1,15 +1,18 @@
 package net.meiteampower.instagram.main;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -27,6 +30,8 @@ import net.meiteampower.instagram.entity.ProfilePage;
 import net.meiteampower.instagram.entity.QueryResponse;
 import net.meiteampower.instagram.entity.Update;
 import net.meiteampower.util.InstagramUtils;
+import net.meiteampower.util.NetUtils;
+import net.meiteampower.util.Thumbnail;
 
 /**
  * @author kie
@@ -34,7 +39,7 @@ import net.meiteampower.util.InstagramUtils;
  */
 public class LikeDigger {
 
-	private static final Logger logger = Logger.getLogger(LikeDigger.class);
+	private static final Logger logger = LoggerFactory.getLogger(LikeDigger.class);
 
 	private InstagramApi api = null;
 	private FreqController freqCon = new FreqController();
@@ -137,25 +142,11 @@ public class LikeDigger {
 
 			String accountId = InstagramUtils.getSakaiMeiAccountId();
 
-			// めいめいのフォローを確認する
-			QueryResponse response = new QueryResponse();
-			api.getFollowers(accountId, null, freqCon, response);
-			Follows follows = Follows.build(new Gson().fromJson(response.getJson(), JsonObject.class));
-
-			for (ProfilePage pp : follows.getProfileList()) {
-				logger.debug("FOLLOW:" + pp.getUsername());
-			}
-//			if (follows.getProfileList().size() > 0) return;
-
 			// 登録済みのアカウントを取得する
 			List<InstagramAccount> accounts = InstagramDao.getAccounts();
 
-			// 各アカウントの処理を行う
-			for (ProfilePage profile : follows.getProfileList()) {
-
-				if (specUsername != null && !specUsername.equals(profile.getUsername())) {
-					continue;
-				}
+			if (specUsername != null) {
+				ProfilePage profile = api.getProfilePage(specUsername, Instant.now());
 
 				try {
 					// アカウントごとの処理を行う
@@ -164,6 +155,34 @@ public class LikeDigger {
 					e.printStackTrace();
 					logger.error(String.format(
 							"アカウント=[%s] の処理に失敗しました。", profile.getUsername()), e);
+				}
+			} else {
+
+				// めいめいのフォローを確認する
+				QueryResponse response = new QueryResponse();
+				api.getFollowers(accountId, null, freqCon, response);
+				Follows follows = Follows.build(new Gson().fromJson(response.getJson(), JsonObject.class));
+
+				for (ProfilePage pp : follows.getProfileList()) {
+					logger.debug("FOLLOW:" + pp.getUsername());
+				}
+	//			if (follows.getProfileList().size() > 0) return;
+
+				// 各アカウントの処理を行う
+				for (ProfilePage profile : follows.getProfileList()) {
+
+					if (specUsername != null && !specUsername.equals(profile.getUsername())) {
+						continue;
+					}
+
+					try {
+						// アカウントごとの処理を行う
+						executePerAccount(accounts, profile);
+					} catch (Exception e) {
+						e.printStackTrace();
+						logger.error(String.format(
+								"アカウント=[%s] の処理に失敗しました。", profile.getUsername()), e);
+					}
 				}
 			}
 
@@ -219,10 +238,11 @@ public class LikeDigger {
 		}
 
 		// 確認終了日
-		Instant upperDateTime = Instant.now().plusSeconds(24 * 60 * 60);
+		Instant upperDateTime = Instant.now();
 		if (specUpperDateTimeString != null) {
 			upperDateTime = InstagramUtils.yyyyMMddToInstant(specUpperDateTimeString);
 		}
+		upperDateTime = upperDateTime.plusSeconds(24 * 60 * 60);
 
 		ProfilePage profilePage = api.getProfilePage(username, lowerDateTime);
 
@@ -255,6 +275,9 @@ public class LikeDigger {
 						username, shortcode));
 			}
 		}
+
+		// アカウント情報を更新する
+		InstagramDao.updateAccount(accountId, username, profilePage.getProfilePicUrl(), profilePage.getProfilePicUrlHd());
 
 	}
 
@@ -299,7 +322,7 @@ public class LikeDigger {
 		}
 
 		// アカウントを確認対象として登録する
-		InstagramDao.insertAccount(accountId, username);
+		InstagramDao.insertAccount(accountId, username, profilePage.getProfilePicUrl(), profilePage.getProfilePicUrlHd());
 	}
 
 	void checkLikedUpdate(String accountId, String username, String shortcode, Instant takenAtTimestamp,
@@ -385,9 +408,13 @@ public class LikeDigger {
 
 			} while (!likedByMeimei && !breakDo && (edgeLikedBy == null || edgeLikedBy.isHasNextPage()));
 
+			// いいね！があった場合、それを記録する。
 			if (likedByMeimei && !InstagramDao.existsLiked(shortcode)) {
 				InstagramDao.registerLiked(postPage.getId(), shortcode,
 						InstagramUtils.getDateTimeString(postPage.getTakenAtTimestamp()));
+
+				// 投稿の写真を保存する
+				savePics(postPage);
 			}
 
 			// 今回確認したLIKEのアカウントを保存する
@@ -414,6 +441,49 @@ public class LikeDigger {
 				"Like探索が終了しました。accountId=[%s] username=[%s] shortcode=[%s] さかいさんのいいね！=[%s]",
 				accountId, username, shortcode, likedByMeimei ? "あり★" : "なし"));
 	}
+
+	/**
+	 * 投稿された写真を保存する。
+	 * @param postPage
+	 * @throws Exception
+	 * @throws IOException
+	 */
+	public static void savePics(PostPage postPage) throws Exception, IOException {
+
+		String shortcode = postPage.getShortcode();
+
+		int thubmnailSize = InstagramUtils.getThumbnailSize();
+		// 写真をダウンロードする
+		List<String> fileNameList = new ArrayList<String>();
+		int picIndex = 0;
+		for (String url : postPage.getDisplayUrls()) {
+			int index = url.lastIndexOf(".");
+			String ext = ".jpg";
+			if (index >= 0 && (index + 1) < url.length()) {
+				ext = url.substring(index);
+			}
+			String toPath = InstagramUtils.getPicDir() + "/" + postPage.getId();
+			String toFileName = postPage.getUsername() + "_"
+					+ InstagramUtils.getyyyyMMddHHmmssString(postPage.getTakenAtTimestamp())
+					+ "_" + (++picIndex)
+					+ ext;
+
+			// 写真をダウンロードする
+			NetUtils.download(url, toPath + "/" + toFileName);
+
+			// 写真のサムネイルを作成する
+			Thumbnail.scaleImage(toPath + "/" + toFileName,
+					toPath + "/t_" + toFileName, InstagramUtils.getThumbnailScale(),
+					thubmnailSize, thubmnailSize, null);
+
+			fileNameList.add(toFileName);
+		}
+
+		// 写真の情報を保存する
+//		InstagramDao.insertPostAddInfo(shortcode, fileNameList);
+		InstagramDao.registerPostInfo(shortcode, postPage.getText(), fileNameList);
+	}
+
 	/**
 	 * 指定したアカウント（プロフィール）の処理タイプを確認して返す。
 	 * @param profile

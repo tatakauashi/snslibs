@@ -2,8 +2,11 @@ DROP TABLE IF EXISTS in_accounts;
 CREATE TABLE in_accounts (
     account_id varchar(30) primary key,
     username varchar(100),
+    profile_pic_url text,
+    profile_pic_url_hd text,
     exclution_flag tinyint,
-    insert_time datetime
+    insert_time datetime,
+    update_time datetime
 );
 
 

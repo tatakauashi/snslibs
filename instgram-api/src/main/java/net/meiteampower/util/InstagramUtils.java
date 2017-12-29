@@ -1,6 +1,3 @@
-/**
- *
- */
 package net.meiteampower.util;
 
 import java.text.SimpleDateFormat;
@@ -14,8 +11,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * @author kie
- *
+ * @author SATOH Kiyoshi
  */
 public class InstagramUtils {
 
@@ -31,6 +27,9 @@ public class InstagramUtils {
 	private static long error502SleepTimeMillis = 300 * 1000;
 	private static long error429SleepTimeMillis = 300 * 1000;
 	private static long errorOthersSleepTimeMillis = 300 * 1000;
+	private static String picDir = "";
+	private static double thumbnailScale = 1.0;
+	private static int thumbnailSize = 300;
 
 	static {
 
@@ -79,6 +78,15 @@ public class InstagramUtils {
 			errorOthersSleepTimeMillis = Integer.parseInt(
 					resourceBundle.getString("error.others.sleep.time.sec")) * 1000;
 		}
+		if (resourceBundle.containsKey("pic.dir")) {
+			picDir = resourceBundle.getString("pic.dir");
+		}
+		if (resourceBundle.containsKey("thumbnail.scale")) {
+			thumbnailScale = Double.parseDouble(resourceBundle.getString("thumbnail.scale"));
+		}
+		if (resourceBundle.containsKey("thumbnail.size")) {
+			thumbnailSize = Integer.parseInt(resourceBundle.getString("thumbnail.size"));
+		}
 
 	}
 
@@ -125,6 +133,15 @@ public class InstagramUtils {
 	public static long getErrorOthersSleepTimeMillis() {
 		return errorOthersSleepTimeMillis;
 	}
+	public static String getPicDir() {
+		return picDir;
+	}
+	public static double getThumbnailScale() {
+		return thumbnailScale;
+	}
+	public static int getThumbnailSize() {
+		return thumbnailSize;
+	}
 
 
 	private static final DateTimeFormatter INSTANT_DATE_TIME_FORMATTER =
@@ -139,10 +156,22 @@ public class InstagramUtils {
 				.format(INSTANT_DATE_TIME_FORMATTER);
 	}
 
+	private static final DateTimeFormatter INSTANT_YYYYMMDDHHMMSS_FORMATTER =
+			DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+	/**
+	 * 指定した日時を日本時間の文字列にして返す。
+	 * @param instant
+	 * @return
+	 */
+	public static String getyyyyMMddHHmmssString(Instant instant) {
+		return LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Tokyo"))
+				.format(INSTANT_YYYYMMDDHHMMSS_FORMATTER);
+	}
+
 	private static final SimpleDateFormat DATE_DATE_TIME_FORMATTER =
 			new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	/**
-	 * 指定した日時を文字列にして返す。ロケーる変更は行わない。
+	 * 指定した日時を文字列にして返す。ロケール変更は行わない。
 	 * @param date
 	 * @return
 	 */

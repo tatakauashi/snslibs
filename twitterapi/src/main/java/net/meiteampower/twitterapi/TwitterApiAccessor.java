@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import twitter4j.HttpParameter;
 import twitter4j.HttpRequest;
@@ -21,7 +22,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.OAuthAuthorization;
 import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 
 //import jp.kielabo.utils.conf.AdsApiProperties;
 //import jp.kielabo.utils.conf.NetworkProperties;
@@ -36,7 +36,7 @@ public class TwitterApiAccessor {
     /** シングルトンインスタンス。シングルトンにしている意味は得にはありません。 */
     private static TwitterApiAccessor singleton;
 
-    private static final Logger logger = Logger.getLogger(TwitterApiAccessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(TwitterApiAccessor.class);
 
 	private TwitterFactory factory;
 	private Twitter twitter;
@@ -427,9 +427,10 @@ public class TwitterApiAccessor {
         try {
             OAuthAuthorization auth = null;
             if (oauthAccessToken != null && oauthAccessTokenSecret != null) {
-                auth = new OAuthAuthorization(getConfiguration(oauthAccessToken, oauthAccessTokenSecret));
+                auth = new OAuthAuthorization(MyConfigurationFactory.getConfiguration(
+                		oauthAccessToken, oauthAccessTokenSecret));
             } else {
-                auth = new OAuthAuthorization(getConfiguration());
+                auth = new OAuthAuthorization(MyConfigurationFactory.getConfiguration());
             }
 
             // リクエストメソッドオブジェクトを取得する
@@ -496,18 +497,6 @@ public class TwitterApiAccessor {
             throw new IllegalArgumentException("http method is null");
         }
         return method;
-    }
-
-    private Configuration getConfiguration(String oauthAccessToken, String oauthAccessTokenSecret) {
-    	ConfigurationBuilder cb = new ConfigurationBuilder();
-    	cb.setDebugEnabled(true)
-    		.setOAuthAccessToken(oauthAccessToken)
-    		.setOAuthAccessTokenSecret(oauthAccessTokenSecret);
-    	return cb.build();
-    }
-
-    private Configuration getConfiguration() {
-    	return getConfiguration(null, null);
     }
 
 }

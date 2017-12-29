@@ -32,10 +32,11 @@ import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -49,7 +50,7 @@ import net.meiteampower.util.InstagramUtils;
 
 public class GoogleHttpClientLibraryTest {
 
-	private static final Logger logger = Logger.getLogger(GoogleHttpClientLibraryTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(GoogleHttpClientLibraryTest.class);
 
 	private static HttpContext httpContext;
 

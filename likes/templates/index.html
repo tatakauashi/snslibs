@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>めいめいのプレゼント候補リスト</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="css/classic.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="js/jquery.columns.min.js"></script>
+<script src="js/lightbox.min.js"></script>
+<link rel="stylesheet" href="css/lightbox.css">
+<style>
+body {
+    padding: 0;
+    margin: 0;
+}
+.profile_pic_url {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}
+.columns .ui-table tbody tr td {
+    padding: 2px 0 2px 0;
+}
+.columns .ui-table tbody tr td:nth-child(1) {
+    text-align: center;
+}
+.columns .ui-table tbody tr td:nth-child(2) {
+    width: 100px;
+    text-align: center;
+}
+tr td ul {
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+}
+tr td ul li {
+    display: table-cell;
+    margin-right: 4px;
+}
+td li img {
+    padding: 4px;
+    width: 80px;
+    height: 80px;
+}
+button {
+    margin-right: 1.5em;
+}
+</style>
+<script>
+$(document).ready(function() {
+    var isColumnsLoaded = false;
+    var searchQuery = "{{query}}";
+    var clearSearch = false;
+
+    $('#search').click(function() {
+        if (isColumnsLoaded) {
+            if (clearSearch) {
+                searchQuery = "";
+                history.replaceState('', '', '/likes/');
+                clearSearch = false;
+            } else {
+                getQuery();
+                if (searchQuery != "") {
+                    history.replaceState('', '', '/likes/?q=' + searchQuery);
+                } else {
+                    history.replaceState('', '', '/likes/');
+                }
+            }
+            $('#columns1').columns('destroy');
+        }
+        isColumnsLoaded = true;
+
+        $.ajax({
+            url: '/likes/search{{search_params}}',
+            dataType: 'json',
+            success: function(json) {
+                columns1 = $('#columns1').columns({
+                    data: json,
+                    size: 10,
+                    query: searchQuery,
+                    reverse: true,
+                    sortBy: "no",
+                    schema: [
+                        {"header": "No.", "key": "no"},
+                        {"header": "profile_pic_url", "key": "profile_pic_url", "hide":true},
+                        {"header": "shortcode", "key": "shortcode", "hide":true},
+                        {"header": "アカウント", "key": "username", "template": '<a href="https://www.instagram.com/p/\{\{shortcode\}\}/" target="_blank"><img src="\{\{profile_pic_url\}\}" class="profile_pic_url"></a><br>\{\{username\}\}'},
+                        {"header": "写真", "key": "display_exp"}
+                    ]
+                });
+
+                // 検索ボックスに候補リストの名前をつける
+                $('.columns .ui-columns-search input').attr('list', 'candidate');
+
+                // 検索フィールドにアカウント名のオートコンプリートを設定
+                var accounts = [];
+                for (var i = 0; i < Object.keys(json).length; i++) {
+                    var un = json[i].username;
+                    var j = 0;
+                    for (j = 0; j < Object.keys(accounts).length; j++) {
+                        if (accounts[j] == un) {
+                            break;
+                        }
+                    }
+                    if (j >= Object.keys(accounts).length) {
+                        accounts.push(un);
+                    }
+                }
+                accounts = accounts.sort();
+
+                var l = [];
+                // 候補リストが既にある場合は削除
+                if ($('#candidate').length) {
+                    $('#candidate').empty();
+                    l = $('#candidate');
+                } else {
+                    l = $("<datalist></datalist>");
+                    l.attr("id", "candidate");
+                    $('.columns .ui-columns-search').append(l);
+                }
+
+                // 候補リストを追加
+                for (var i = 0; i < Object.keys(accounts).length; i++) {
+                    l.append($('<option value="' + accounts[i] + '"></option>'));
+                }
+            }
+        });
+    });
+
+    $('#clear').click(function() {
+        clearSearch = true;
+        $('#search').click();
+    });
+
+    $('#search').click();
+
+    function getQuery() {
+        searchQuery = $('#columns1').columns('getQuery');
+        searchQuery = searchQuery.trim();
+    }
+});
+</script>
+</head>
+<body>
+<section>
+    <button id="search">再読み込みする</button>
+    <button id="clear">検索をクリア</button>
+    <div id="columns1"></div>
+</section>
+</html>

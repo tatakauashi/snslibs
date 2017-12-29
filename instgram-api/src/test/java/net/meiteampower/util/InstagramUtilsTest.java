@@ -4,17 +4,18 @@ import static org.junit.Assert.*;
 
 import java.time.Instant;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
 public class InstagramUtilsTest {
 
-	private static final Logger logger = Logger.getLogger(InstagramUtilsTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(InstagramUtilsTest.class);
 
 	@Before
 	public void setUp() throws Exception {

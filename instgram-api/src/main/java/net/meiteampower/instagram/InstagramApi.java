@@ -27,7 +27,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -40,6 +41,7 @@ import net.meiteampower.instagram.entity.ProfilePage;
 import net.meiteampower.instagram.entity.QueryResponse;
 import net.meiteampower.instagram.entity.Update;
 import net.meiteampower.util.InstagramUtils;
+import net.meiteampower.util.NetUtils;
 
 /**
  * @author kie
@@ -47,7 +49,7 @@ import net.meiteampower.util.InstagramUtils;
  */
 public class InstagramApi {
 
-	private static final Logger logger = Logger.getLogger(InstagramApi.class);
+	private static final Logger logger = LoggerFactory.getLogger(InstagramApi.class);
 
 //	private static final String CHARSET = "UTF-8";
 	private static final String JSON_START_STR =
@@ -190,6 +192,8 @@ public class InstagramApi {
 		page.setUsername(user.get("username").getAsString());
 		page.setFullName(user.get("full_name").isJsonNull() ? "" : user.get("full_name").getAsString());
 		page.setBiography(user.get("biography").isJsonNull() ? "" : user.get("biography").getAsString());
+		page.setProfilePicUrl(user.get("profile_pic_url").isJsonNull() ? "" : user.get("profile_pic_url").getAsString());
+		page.setProfilePicUrlHd(user.get("profile_pic_url_hd").isJsonNull() ? "" : user.get("profile_pic_url_hd").getAsString());
 		page.setFollowedBy(user.get("followed_by").getAsJsonObject()
 				.get("count").getAsInt());
 		page.setFollows(user.get("follows").getAsJsonObject()
@@ -239,9 +243,12 @@ public class InstagramApi {
 		logger.debug("PostPage: sortcode=" + shortcode);
 
 		String json = getPostPageJson(shortcode);
-//		logger.debug("@@@@@@@@ PostPage(json)=" + json);
+		logger.debug("@@@@@@@@ PostPage(json)=" + json);
 
-		PostPage page = getPostPageData(json);
+		PostPage page = null;
+		if (json != null) {
+			page = getPostPageData(json);
+		}
 
 		return page;
 	}
@@ -296,10 +303,31 @@ public class InstagramApi {
 		}
 
 		// owner
-		page.setId(shortcodeMedia.get("owner").getAsJsonObject().get("id").getAsString());
-		page.setUsername(shortcodeMedia.get("owner").getAsJsonObject().get("username").getAsString());
+		JsonObject owner = shortcodeMedia.get("owner").getAsJsonObject();
+		page.setId(owner.get("id").getAsString());
+		page.setUsername(owner.get("username").getAsString());
+		if (owner.has("full_name")) {
+			page.setFullName(owner.get("full_name").getAsString());
+		} else {
+			page.setFullName(page.getUsername());
+		}
 
 		return page;
+	}
+
+	public void savePostPics(PostPage postPage) throws Exception {
+
+		String shortcode = postPage.getShortcode();
+		int count = 0;
+		for (String url : postPage.getDisplayUrls()) {
+			int extIndex = url.lastIndexOf('.');
+			String ext = url.substring(extIndex);
+
+			count++;
+			// mp-utilを使用して写真ファイルをダウンロードする。
+			String path = InstagramUtils.getPicDir() + "/" + shortcode + "/l" + count + ext;
+			NetUtils.download(url, path);
+		}
 	}
 
 	/**
@@ -346,18 +374,20 @@ public class InstagramApi {
 		String reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
 		logger.debug("Response Status: " + statusCode + " " + reasonPhrase);
 
-		String line = null;
-		String json = "";
-		try (BufferedReader reader = new BufferedReader(
-				new InputStreamReader(httpResponse.getEntity().getContent()))) {
-			while ((line = reader.readLine()) != null) {
+		String json = null;
+		if (statusCode == 200) {
+			String line = null;
+			try (BufferedReader reader = new BufferedReader(
+					new InputStreamReader(httpResponse.getEntity().getContent()))) {
+				while ((line = reader.readLine()) != null) {
 
-            	line = line.trim();
-            	if (line.startsWith(JSON_START_STR)) {
-            		json = line.replaceAll(JSON_START_STR, "");
-            		json = json.substring(0, json.length() - JSON_END_STR.length());
-            		break;
-            	}
+	            	line = line.trim();
+	            	if (line.startsWith(JSON_START_STR)) {
+	            		json = line.replaceAll(JSON_START_STR, "");
+	            		json = json.substring(0, json.length() - JSON_END_STR.length());
+	            		break;
+	            	}
+				}
 			}
 		}
 
@@ -434,6 +464,22 @@ public class InstagramApi {
 //			return response;
 //		}
 
+		// コンテント部を取得する。
+		String json = readContent(httpResponse);
+//		logger.debug("Response JSON=" + json);
+
+		if (json != null) {
+			response.setJson(json);
+//			JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
+//			response.setJsonObject(jsonObject);
+
+			if (contentLengthHeader == null) {
+				response.setContentLength(json.length());
+			}
+		}
+	}
+
+	private String readContent(HttpResponse httpResponse) throws IOException {
 		HttpEntity entity = httpResponse.getEntity();
 //		InputStream is = entity.getContent();
 		StringBuilder sb = new StringBuilder();
@@ -452,17 +498,7 @@ public class InstagramApi {
 			}
 		}
 		String json = sb.toString();
-//		logger.debug("Response JSON=" + json);
-
-		if (json != null) {
-			response.setJson(json);
-//			JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
-//			response.setJsonObject(jsonObject);
-
-			if (contentLengthHeader == null) {
-				response.setContentLength(json.length());
-			}
-		}
+		return json;
 	}
 
 	public String getVariablesJson(String keyName, String shortcode, int firstSize, String endCursor) {
@@ -527,7 +563,9 @@ public class InstagramApi {
 		HttpResponse httpResponse = client.execute(httpPost, httpContext);
 		int statusCode = httpResponse.getStatusLine().getStatusCode();
 		String reasonPhrase = httpResponse.getStatusLine().getReasonPhrase();
+		String content = readContent(httpResponse);
 		logger.debug("Response Status: " + statusCode + " " + reasonPhrase);
+		logger.debug("Response Content: " + content);
 
 		return statusCode == 200;
 	}

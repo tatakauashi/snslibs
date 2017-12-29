@@ -10,6 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.meiteampower.instagram.InstagramApi;
+import net.meiteampower.instagram.entity.PostPage;
 import net.meiteampower.util.InstagramUtils;
 
 public class LikeDiggerTest {
@@ -97,6 +99,20 @@ public class LikeDiggerTest {
 			Instant actual = Instant.ofEpochSecond(epochSecond);
 			System.out.println("Instant=" + actual.toString());
 			System.out.println("Instant=" + InstagramUtils.getDateTimeString(actual));
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	public void testSavePics() {
+
+		String shortcode = "BbEkLiunGof";
+		try {
+			InstagramApi api = new InstagramApi();
+			PostPage postPage = api.getPostPage(shortcode);
+			LikeDigger.savePics(postPage);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
