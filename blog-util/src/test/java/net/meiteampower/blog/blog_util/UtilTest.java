@@ -2,6 +2,8 @@ package net.meiteampower.blog.blog_util;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.junit.Test;
@@ -19,8 +21,10 @@ public class UtilTest {
 
 		try {
 //			String root = "C:\\temp\\blog";
-			String root = "C:\\temp\\blog_Rion";
-			String toRootDirName = "www2.ske48.co.jp_";
+//			String root = "C:\\temp\\blog_Rion";
+			String root = "C:\\Users\\kie\\git2\\blog-crawler\\blog_Kannon_original";
+//			String toRootDirName = "www2.ske48.co.jp_";
+			String toRootDirName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 
 			List<FileInfo> list = Util.getHtmls(root);
 			for (FileInfo fi : list) {
@@ -73,7 +77,8 @@ public class UtilTest {
 			String toRoot = "20171020194301";
 //			String path = "C:\\temp\\blog\\www2.ske48.co.jp\\blog\\detail\\id[[co]]20110119163117092.html";
 //			String path = "C:\\temp\\blog\\www2.ske48.co.jp\\blog\\member\\page[[co]]1\\writer[[co]]sakai_mei.html";
-			String path = "C:\\temp\\blog\\www2.ske48.co.jp\\blog\\member\\writer[[co]]sakai_mei.html";
+//			String path = "C:\\temp\\blog\\www2.ske48.co.jp\\blog\\member\\writer[[co]]sakai_mei.html";
+			String path = "C:\\Users\\kie\\git2\\blog-crawler\\blog_Kannon_original";
 //			String path = "C:\\temp\\blog\\www2.ske48.co.jp\\blog\\detail\\id[[co]]20170331225713641.html";
 //			String path = "C:\\temp\\blog\\www2.ske48.co.jp\\blog\\memberMonth\\writer[[co]]sakai_mei.html";
 //			String path = "C:\\temp\\blog\\www2.ske48.co.jp\\blog\\memberMonth\\writer[[co]]sakai_mei\\year[[co]]2017.html";

@@ -22,7 +22,7 @@ public class ThumbnailServiceTest {
 	@Test
 	public void testGet() {
 
-		String shortcode = "BbeP6mABi__";
+		String shortcode = "BdY5TweBbnR";
 		String writePath = "C:/tmp/";
 //		String footerImgFilePath = "src/main/images/instagram_sakai__mei.png";
 		try {
@@ -45,6 +45,18 @@ public class ThumbnailServiceTest {
 			System.out.println("postPage.getFullName()=" + postPage.getFullName());
 			System.out.println("postPage.getText()=" + postPage.getText());
 
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	public void testMakeInstagramUserBand() {
+
+		try {
+			ThumbnailService service = new ThumbnailService(null);
+			service.makeInstagramUserBand("instagram.com/sakai__mei");
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

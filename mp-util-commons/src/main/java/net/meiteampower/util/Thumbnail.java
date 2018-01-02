@@ -6,11 +6,14 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.awt.image.BufferedImage;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,7 +21,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 
 /**
  * @see http://qiita.com/tool-taro/items/1f414424b31a86e97446#comment-76a41ab4e55db252b7f6
@@ -93,28 +100,7 @@ public class Thumbnail {
     	try (InputStream is = new FileInputStream(fromFilePath);
     			OutputStream os = new FileOutputStream(toFilePath)) {
 
-    		// 変換もとの画像オブジェクト
-        	BufferedImage org = ImageIO.read(is);
-        	// 変換元の画像の幅と高さ
-        	int fromWidth = org.getWidth();
-        	int fromHeight = org.getHeight();
-
-        	// 変換後の画像の幅と高さとの比を出し、短辺に対してscaleの大きさを切り取るように、
-        	// 元画像の拡大・縮小するときの倍率（fromScale）を取得する
-            double widthRate = ((double)toWidth) / fromWidth;
-            double heightRate = ((double)toHeight) / fromHeight;
-            double fromScale = 1.0;
-            if (widthRate > heightRate) {
-            	fromScale = widthRate / scale;
-            } else {
-            	fromScale = heightRate / scale;
-            }
-
-            // 元画像を拡大・縮小したもの
-            ImageFilter filter = new AreaAveragingScaleFilter(
-                (int)(fromWidth * fromScale), (int)(fromHeight * fromScale));
-            ImageProducer p = new FilteredImageSource(org.getSource(), filter);
-            java.awt.Image dstImage = Toolkit.getDefaultToolkit().createImage(p);
+    		java.awt.Image dstImage = resizeImage(is, scale, toWidth, toHeight);
 
             // 拡大・縮小後の幅と高さ
             int width = dstImage.getWidth(null);
@@ -235,4 +221,124 @@ public class Thumbnail {
 
         ImageIO.write(dst, "jpeg", out);
     }
+
+	public static BufferedImage layer(String imageFilePath, BufferedImage bandImg,
+			double scale, int toWidth, int toHeight, float alphaValue) throws IOException {
+
+    	try (InputStream is = new FileInputStream(imageFilePath)) {
+
+    		// リサイズする
+    		java.awt.Image resizedImage = resizeImage(is, scale, toWidth, toHeight);
+
+            // 拡大・縮小後の幅と高さ
+            int width = resizedImage.getWidth(null);
+            int height = resizedImage.getHeight(null);
+            BufferedImage dst = new BufferedImage(
+            		width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = dst.createGraphics();
+            g.drawImage(resizedImage, 0, 0, null);
+            g.dispose();
+
+            // 中心を切り取る際の左上の座標を取得し、そのまま切り取る
+            int x = (int)((width - toWidth) / 2.);
+            int y = (int)((height - toHeight) / 2.);
+            dst = dst.getSubimage(x, y, toWidth, toHeight);
+
+            // 切り取ったイメージにバンドを半透明で重ねる。
+    		Graphics2D gr = dst.createGraphics();
+    		gr.setComposite(
+    				AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue)
+    		);
+    		int toY = dst.getHeight() - bandImg.getHeight();
+    		gr.drawImage(bandImg, 0, toY, null);
+    		gr.dispose();
+
+    		return dst;
+    	}
+	}
+
+	/**
+	 * アフィン変換を使用しないでリサイズする。
+	 * @param is
+	 * @param scale
+	 * @param toWidth
+	 * @param toHeight
+	 * @return
+	 * @throws IOException
+	 */
+	private static java.awt.Image resizeImage(InputStream is, double scale, int toWidth, int toHeight)
+			throws IOException {
+		return resizeImage(is, scale, toWidth, toHeight, false);
+	}
+
+	/**
+	 * リサイズする。
+	 * @param is
+	 * @param scale 画像の短辺に対して切り取る割合
+	 * @param toWidth 拡大・縮小後の幅
+	 * @param toHeight 拡大・縮小後の高さ
+	 * @param useAffineTransform アフィン変換を行う場合はtrue
+	 * @return
+	 * @throws IOException
+	 */
+	private static java.awt.Image resizeImage(InputStream is, double scale, int toWidth, int toHeight,
+			boolean useAffineTransform) throws IOException {
+
+		// 変換元の画像オブジェクト
+		BufferedImage org = ImageIO.read(is);
+		// 変換元の画像の幅と高さ
+		int fromWidth = org.getWidth();
+		int fromHeight = org.getHeight();
+
+		// 変換後の画像の幅と高さとの比を出し、短辺に対してscaleの大きさを切り取るように、
+		// 元画像の拡大・縮小するときの倍率（fromScale）を取得する
+		double widthRate = ((double)toWidth) / fromWidth;
+		double heightRate = ((double)toHeight) / fromHeight;
+		double fromScale = 1.0;
+		if (widthRate > heightRate) {
+			fromScale = widthRate / scale;
+		} else {
+			fromScale = heightRate / scale;
+		}
+
+		// リサイズ後の大きさ
+		int width = (int)(fromWidth * fromScale);
+		int height = (int)(fromHeight * fromScale);
+		java.awt.Image resizedImage = new BufferedImage(width, height, org.getType());
+
+		if (useAffineTransform) {
+			// アフィン変換でリサイズ（画質優先）
+			AffineTransform transform = AffineTransform.getScaleInstance(fromScale, fromScale);
+			AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BICUBIC);
+			op.filter(org, (BufferedImage)resizedImage);
+		} else {
+			// 元画像を拡大・縮小したもの
+			ImageFilter filter = new AreaAveragingScaleFilter(width, height);
+			ImageProducer p = new FilteredImageSource(org.getSource(), filter);
+			resizedImage = Toolkit.getDefaultToolkit().createImage(p);
+		}
+
+		return resizedImage;
+	}
+
+	public static void writeImageJpeg(BufferedImage img, String filePath, float quality)
+			throws IOException {
+
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream();
+				ImageOutputStream ios = ImageIO.createImageOutputStream(os)) {
+			// 保障品質はユーザー指定に従う
+			ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next();
+			ImageWriteParam param = writer.getDefaultWriteParam();
+			param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+			param.setCompressionQuality(quality);
+			writer.setOutput(ios);
+			writer.write(null, new IIOImage(img, null, null), param);
+			writer.dispose();
+
+			// データを書き出す。
+			try (FileOutputStream fos = new FileOutputStream(filePath)) {
+				fos.write(os.toByteArray());
+			}
+		}
+	}
 }

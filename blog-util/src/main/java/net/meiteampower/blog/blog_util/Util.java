@@ -1,5 +1,7 @@
 package net.meiteampower.blog.blog_util;
 
+import static org.junit.Assert.*;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -78,6 +82,9 @@ public class Util
 									}
 									toUrl.append(url.replaceAll(":", "[[co]]"));
 								}
+							} else if (url.startsWith("#")) {
+								// ラベルはそのまま
+								toUrl.append(url);
 							} else {
 								for (int i = 0; i < fileInfo.getDepth() - 1; i++) {
 									toUrl.append("../");
@@ -173,7 +180,7 @@ public class Util
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		try {
 			List<FileInfo> htmls = getHtmls(args[0]);
 
@@ -189,4 +196,25 @@ public class Util
 			e.printStackTrace();
 		}
 	}
+
+	public static void main(String[] args) {
+
+		try {
+//			String root = "C:\\temp\\blog";
+//			String root = "C:\\temp\\blog_Rion";
+			String root = "C:\\Users\\kie\\git2\\blog-crawler\\blog_Kannon_original";
+//			String toRootDirName = "www2.ske48.co.jp_";
+			String toRootDirName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+
+			List<FileInfo> list = Util.getHtmls(root);
+			for (FileInfo fi : list) {
+				Util.execute(root, toRootDirName, fi);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
 }

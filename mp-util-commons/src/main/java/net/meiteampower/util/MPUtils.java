@@ -69,4 +69,35 @@ public class MPUtils {
 
 		return text2 + " ...";
 	}
+
+	public static String replaceWindowsSafetyChar(String s) {
+		return replaceWindowsSafetyChar(s, false);
+	}
+
+	public static String replaceWindowsSafetyChar(String s, boolean replaceFull) {
+
+        String wRetVal = s;
+        // :
+        wRetVal = wRetVal.replaceAll("\\:", "[[co]]");
+        // *
+        wRetVal = wRetVal.replaceAll("\\*", "[[as]]");
+        // ?
+        wRetVal = wRetVal.replaceAll("\\?", "[[qe]]");
+        // "
+        wRetVal = wRetVal.replaceAll("\"", "[[qo]]");
+        // <
+        wRetVal = wRetVal.replaceAll("<", "[[lt]]");
+        // >
+        wRetVal = wRetVal.replaceAll(">", "[[gt]]");
+        // |
+        wRetVal = wRetVal.replaceAll("\\|", "[[pi]]");
+        if (replaceFull)
+        {
+            // \
+            wRetVal = wRetVal.replaceAll("\\", "[[ye]]");
+            // |
+            wRetVal = wRetVal.replaceAll("/", "[[sl]]");
+        }
+        return wRetVal;
+	}
 }
