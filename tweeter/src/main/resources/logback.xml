@@ -10,7 +10,7 @@
 	<appender name="APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${log.path}/${log.app.filename}</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${log.app.filename}.%d{yyyyMMdd}</fileNamePattern>
+			<fileNamePattern>${log.path}/${log.app.filename}.%d{yyyyMMdd}</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
@@ -23,7 +23,7 @@
 		</filter>
 		<file>${log.path}/${log.err.filename}</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${log.err.filename}.%d{yyyyMMdd}</fileNamePattern>
+			<fileNamePattern>${log.path}/${log.err.filename}.%d{yyyyMMdd}</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>

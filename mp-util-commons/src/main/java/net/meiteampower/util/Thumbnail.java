@@ -223,7 +223,7 @@ public class Thumbnail {
     }
 
 	public static BufferedImage layer(String imageFilePath, BufferedImage bandImg,
-			double scale, int toWidth, int toHeight, float alphaValue) throws IOException {
+			double scale, int toWidth, int toHeight, float alphaValue, double[] detectFace) throws IOException {
 
     	try (InputStream is = new FileInputStream(imageFilePath)) {
 

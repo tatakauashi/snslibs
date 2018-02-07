@@ -202,7 +202,7 @@ public class CrawlerDao {
 	public static void add(Connection connection, int parentId, String href, String link, String fullUrl)
 			throws SQLException {
 
-		String sql = "INSERT INTO Crawl_Url (parent_id, href, link, full_url, regist_time) "
+		String sql = "INSERT INTO crawl_url (parent_id, href, link, full_url, regist_time) "
 				+ " VALUES (?, ?, ?, ?, NOW())";
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setString(1, String.valueOf(parentId));
@@ -215,7 +215,7 @@ public class CrawlerDao {
 
 	public static CrawlUrlEntity getNext(Connection connection) throws SQLException {
 
-		String sql = "SELECT id, full_url FROM Crawl_Url WHERE status = 0 ORDER BY regist_time LIMIT 1";
+		String sql = "SELECT id, full_url FROM crawl_url WHERE status = 0 ORDER BY regist_time LIMIT 1";
 		try (ResultSet rs = connection.createStatement().executeQuery(sql)) {
 			if (rs.next()) {
 				int id = rs.getInt(1);

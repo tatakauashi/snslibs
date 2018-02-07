@@ -55,7 +55,9 @@ public class AppTest {
 	public void testTweet() {
 
 		try {
-			StatusService service = new StatusService(MyConfig.getMyAccessToken(), MyConfig.getMyAccessTokenSecret());
+			StatusService service = new StatusService(
+					MyConfig.getInstance().getMyAccessToken(),
+					MyConfig.getInstance().getMyAccessTokenSecret());
 			List<String> list = new ArrayList<String>();
 			list.add("c:/tmp/1987919308998164341_1514295657952.jpg.layered.jpg");
 

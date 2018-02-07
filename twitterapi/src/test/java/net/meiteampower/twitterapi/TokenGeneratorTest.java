@@ -35,9 +35,11 @@ public class TokenGeneratorTest {
 		logger.error("authorization_url=" + url);
 
 
-		String verifier = "test";
+		String verifier = "1638246";
 		AccessToken token = generator.getAccessToken(verifier);
 		logger.error("AccessToken=" + token.toString());
+		logger.error("AccessToken.getToken()=" + token.getToken().toString());
+		logger.error("AccessToken.getTokenSecret=" + token.getTokenSecret().toString());
 
 	}
 

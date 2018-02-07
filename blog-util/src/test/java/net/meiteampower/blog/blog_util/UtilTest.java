@@ -22,7 +22,7 @@ public class UtilTest {
 		try {
 //			String root = "C:\\temp\\blog";
 //			String root = "C:\\temp\\blog_Rion";
-			String root = "C:\\Users\\kie\\git2\\blog-crawler\\blog_Kannon_original";
+			String root = "C:\\temp\\blog_Risako";
 //			String toRootDirName = "www2.ske48.co.jp_";
 			String toRootDirName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 

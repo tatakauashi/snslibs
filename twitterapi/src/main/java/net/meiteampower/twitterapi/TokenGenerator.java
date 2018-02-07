@@ -9,6 +9,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.OAuth2Authorization;
 import twitter4j.auth.OAuth2Token;
+import twitter4j.auth.OAuthAuthorization;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 
@@ -23,6 +24,7 @@ public class TokenGenerator {
 	private RequestToken req = null;
 	private TwitterFactory factory;
 	private Twitter twitter;
+	private OAuthAuthorization oAuth;
 
 	public TokenGenerator() {
 		factory = new TwitterFactory();
@@ -41,7 +43,10 @@ public class TokenGenerator {
 //		Configuration conf = ConfigurationContext.getInstance();
 
 		try {
-			req = twitter.getOAuthRequestToken("oob");
+			oAuth = new OAuthAuthorization(twitter.getConfiguration());
+			oAuth.setOAuthAccessToken(null);
+//			req = twitter.getOAuthRequestToken("oob");
+			req = oAuth.getOAuthRequestToken("oob");
 		} catch (TwitterException e) {
 			e.printStackTrace();
 			logger.error("リクエストトークンの生成に失敗しました。", e);
@@ -53,7 +58,8 @@ public class TokenGenerator {
 	public AccessToken getAccessToken(String verifier) {
 		AccessToken token = null;
 		try {
-			token = twitter.getOAuthAccessToken(req, verifier);
+//			token = twitter.getOAuthAccessToken(req, verifier);
+			token = oAuth.getOAuthAccessToken(req, verifier);
 		} catch (TwitterException e) {
 			e.printStackTrace();
 			logger.error("アクセストークンの取得に失敗しました。", e);

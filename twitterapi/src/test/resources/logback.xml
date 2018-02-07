@@ -33,7 +33,7 @@
 	<logger level="debug" name="net.meiteampower" additivity="false">
 		<appender-ref ref="app" />
 	</logger>
-	<root level="debug">
+	<root level="info">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

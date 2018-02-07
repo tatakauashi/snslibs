@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.meiteampower.util.Crypto;
+
 public class DBFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(DBFactory.class);
@@ -17,6 +19,7 @@ public class DBFactory {
 	private String loginId;
 	private String password;
 	private String initialQuery;
+	private String seed = "FzVR_fymZw4";
 
 	private static DBFactory factory;
 
@@ -40,6 +43,9 @@ public class DBFactory {
 			if (bundle.containsKey("initialQuery")) {
 				initialQuery = bundle.getString("initialQuery");
 			}
+			if (bundle.containsKey("db.seed")) {
+				seed = bundle.getString("db.seed");
+			}
 
 		} catch (Exception e) {
 			logger.error("DB接続の生成に失敗しました。", e);
@@ -47,18 +53,37 @@ public class DBFactory {
 		}
 	}
 
-	public static Connection getConnection() throws SQLException {
-
+	private static DBFactory getInstance() {
 		if (factory == null) {
 			factory = new DBFactory();
 		}
+		return factory;
+	}
+
+	public static Connection getConnection() throws SQLException {
+
+		DBFactory factory = getInstance();
+		return getConnectionDetail(factory.password);
+	}
+
+	public static Connection getConnection(final String password) throws Exception {
+
+		DBFactory factory = getInstance();
+		return getConnectionDetail(Crypto.decrypt(factory.password, password));
+	}
+
+	private static Connection getConnectionDetail(final String password) throws SQLException {
 
 		Connection connection = DriverManager.getConnection(
-				factory.connectionString, factory.loginId, factory.password);
+				factory.connectionString, factory.loginId, password);
 		if (factory.initialQuery != null) {
 			connection.prepareStatement(factory.initialQuery).executeQuery();
 		}
 
 		return connection;
+	}
+
+	public static String getPassword(final String p) {
+		return Crypto.getPassword(p + getInstance().seed);
 	}
 }

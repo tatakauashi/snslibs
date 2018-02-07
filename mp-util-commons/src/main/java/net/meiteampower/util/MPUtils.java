@@ -1,10 +1,19 @@
 package net.meiteampower.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 /**
  * 全体を通したユーティリティを定義する。
@@ -100,4 +109,94 @@ public class MPUtils {
         }
         return wRetVal;
 	}
+
+	/**
+	 * 画像ファイルから顔の位置を認識する。
+	 * @param filePath
+	 * @return
+	 * @throws IOException
+	 */
+	public static double[] detectFaces(final String filePath) throws IOException {
+
+		double[] result = null;
+		String imageData = MPUtils.getBase64ImageData(filePath);
+		if (imageData != null) {
+			byte[] content = NetUtils.post(
+					"https://tf-face-detector.herokuapp.com/api/detect", imageData);
+
+			if (content != null) {
+				String json = new String(content);
+				JsonObject obj = new Gson().fromJson(json, JsonObject.class);
+
+				JsonArray face = null;
+				int faceCount = 0;
+				for (JsonElement elem : obj.get("results").getAsJsonArray()) {
+					obj = elem.getAsJsonObject();
+					int clazz = obj.get("class").getAsJsonPrimitive().getAsInt();
+					if (clazz == 1) {
+						face = obj.get("bbox").getAsJsonArray();
+						faceCount++;
+					}
+				}
+
+				// 顔がひとつのみ認識された場合のみその位置を返す。
+				if (faceCount == 1 && face.size() == 4) {
+					result = new double[4];
+					result[0] = face.get(0).getAsDouble();
+					result[1] = face.get(1).getAsDouble();
+					result[2] = face.get(2).getAsDouble();
+					result[3] = face.get(3).getAsDouble();
+				}
+			}
+		}
+
+		return result;
+	}
+
+	public static String getBase64ImageData(final String filePath) throws IOException {
+
+		File f = new File(filePath);
+		long fileLength = f.length();
+		try (FileInputStream fis = new FileInputStream(f)) {
+			byte[] b = new byte[(int)fileLength];
+			fis.read(b);
+			ImageType type = getImageType(b);
+
+			if (type != null) {
+				String encoded = "data:image/" + type.name + ";base64," + Base64.getEncoder().encodeToString(b);
+				return encoded;
+			} else {
+				throw new IllegalStateException("画像ファイルの種別を判定できませんでした。 filePath=" + filePath);
+			}
+		}
+	}
+
+	/**
+	 * 画像ファイルの種別を判定する。
+	 * @param img がそうファイルのデータ
+	 * @return ファイルの種別。判定できなかった場合はnull
+	 */
+	public static ImageType getImageType(byte[] img) {
+
+		if (img == null || img.length < 4) {
+			return null;
+		}
+
+		final ImageType[] types = new ImageType[] { ImageType.JPEG, ImageType.PNG, ImageType.GIF };
+		for (ImageType type : types) {
+			boolean flag = true;
+			for (int i = 0; i < type.data.length; i++) {
+				if (type.data[i] != img[i]) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag) {
+				return type;
+			}
+		}
+
+		return null;
+	}
+
 }

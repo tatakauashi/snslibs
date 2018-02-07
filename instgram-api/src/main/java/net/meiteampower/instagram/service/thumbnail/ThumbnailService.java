@@ -12,6 +12,9 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.meiteampower.instagram.entity.PostPage;
 import net.meiteampower.util.MPUtils;
 import net.meiteampower.util.NetUtils;
@@ -22,6 +25,8 @@ import net.meiteampower.util.Thumbnail;
  * @author SATOH Kiyoshi
  */
 public class ThumbnailService {
+
+	private static final Logger logger = LoggerFactory.getLogger(ThumbnailService.class);
 
 	private final PostPage postPage;
 	private static final Random RANDOM = new Random();
@@ -109,9 +114,17 @@ public class ThumbnailService {
 					+ "_" + (randomLong < 0 ? randomLong * (-1) : randomLong) + extension;
 			NetUtils.download(url, imageFilePath);
 
+			// 写真の中の顔を認識する
+			double[] detectFace = null;
+			try {
+				detectFace = MPUtils.detectFaces(imageFilePath);
+			} catch (Exception e) {
+				logger.warn("顔の検出に失敗しました。", e);
+			}
+
 			// 写真をスケールし、そこにレイヤーイメージを重ねて出力する。
 //			createThumbnail(param, data, bandImg, extension, imageFilePath);
-			createThumbnail(param, data, bandImg, "jpg", imageFilePath);
+			createThumbnail(param, data, bandImg, "jpg", imageFilePath, detectFace);
 
 			// 元の画像を削除する
 			new File(imageFilePath).delete();
@@ -119,13 +132,13 @@ public class ThumbnailService {
 	}
 
 	public void createThumbnail(ThumbnailParameter param, ThumbnailData data, BufferedImage bandImg,
-			String extension, String imageFilePath) throws IOException {
+			String extension, String imageFilePath, double[] detectFace) throws IOException {
 
 		// 写真をスケールし、そこにレイヤーイメージを重ねて出力する。
 		String toPath = imageFilePath + ".layered." + extension;
 		BufferedImage dst = Thumbnail.layer(imageFilePath, bandImg,
 				param.getScale(), param.getWidth(), param.getHeight(),
-				param.getAlphaValue());
+				param.getAlphaValue(), detectFace);
 
 		if (dst != null) {// ファイルを出力する
 //		    ImageIO.write(dst, extension, new File(toPath));

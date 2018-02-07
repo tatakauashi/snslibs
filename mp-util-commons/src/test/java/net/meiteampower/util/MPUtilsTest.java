@@ -67,4 +67,18 @@ public class MPUtilsTest {
 		}
 	}
 
+	@Test
+	public void testDetectFaces() {
+
+		try {
+//			double[] result = MPUtils.detectFaces("./samples/20170520_Kaede_02.jpg");
+			double[] result = MPUtils.detectFaces("./samples/IMG_9869.png");
+			System.out.println(result[0] + ", " + result[1] + ", " + result[2] + ", " + result[3]);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
 }
